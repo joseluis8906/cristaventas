@@ -1,0 +1,21 @@
+@import "foundation";
+@include foundation-everything(true);
+
+@import 'motion-ui';
+@include motion-ui-transitions;
+@include motion-ui-animations;
+
+$font-stack: "Lucida Grande", Helvetica, Arial, sans-serif;
+
+body{
+  padding: 50px;
+  font: 14px $font-stack;
+}
+
+.placeholder {
+  color: #cacaca;
+}
+
+#tablero {
+  display: none;
+}
