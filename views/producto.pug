@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+  //form
+  div(class="grid-container")
+    div(class="grid-x")
+      div(class="large-1 cell")
+        input(type='text', id='Cantidad', placeholder='Cantidad (int)')
+      div(class="large-3 cell")
+        input(type='text', id='Codigo', placeholder='Código (string)')
+      div(class="large-5 cell")
+        input(type='text', id='Nombre', placeholder='Nombre (string)')
+      div(class="large-1 cell")
+        input(type='text', id='DescuentoProveedor', placeholder='Descuento Proveedor (string)')
+      div(class="large-1 cell")
+        input(type='text', id='PrecioUnitario', placeholder='Precio Unitario (double)')
+      div(class="large-1 cell")
+        input(type='text', id='Iva', placeholder='Iva (double)')
+
+  a(class="button", id="btnProbar") Send
+
+  //viewer
+  div(id='tablero', data-toggler, data-animate="fade-in fade-out", class="callout secondary")
+
+  script(src="/js/cristaleria.cliente.js")
