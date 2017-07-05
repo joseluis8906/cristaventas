@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('../models/index');
-var Producto = require('../models/Producto');
-var Inventario = require('../models/Inventario');
+var db = require('../models/local/index');
+var Producto = require('../models/local/Producto');
+var Inventario = require('../models/local/Inventario');
 
 //select
 router.post('/Select/', function(req, res, next) {

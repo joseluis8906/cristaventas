@@ -48,8 +48,8 @@ window.onload = function()
         {
             if (this.readyState === 4 && this.status == 200)
             {
-                //console.log (JSON.parse(xhttp.responseText));
-                Response(JSON.parse(xhttp.responseText));
+                console.log (JSON.parse(xhttp.responseText));
+                //Response(JSON.parse(xhttp.responseText));
             }
         };
         xhttp.send (JSON.stringify (objetoJson));

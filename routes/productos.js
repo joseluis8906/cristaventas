@@ -1,69 +1,40 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('../models/index');
-var Producto = require('../models/Producto');
+var DB = require('../models/remote/index');
 
 //select
 router.post('/Select/', function(req, res, next) {
 
   var Data = req.body;
 
-  Producto.findOne({ where: {Codigo: Data.Codigo}})
-  .then(result => {
-      res.json(result);
-  });
-  //res.json({Result: 1});
-});
-
-//insert
-router.post('/Insert/', function(req, res, next) {
-
-  var Data = req.body;
-
-  Producto.create ({
-      Codigo: Data.Codigo,
-      Nombre: Data.Nombre,
-      DescuentoProveedor: Data.DescuentoProveedor,
-      PrecioUnitario: Data.PrecioUnitario,
-      Iva: Data.Iva
-  })
-  .then(() => {
-      res.json({Result: 1});
-  });
-});
-
-
-//update
-router.post('/Update/', function(req, res, next) {
-
-  var Data = req.body;
-
-  Producto.findOne ({where: {
-      Codigo: Data.Codigo,
-  }
-  })
-  .then(R => {
-      R.Nombre = Data.Nombre,
-      R.DescuentoProveedor = Data.DescuentoProveedor,
-      R.PrecioUnitario = Data.PrecioUnitario,
-      R.Iva = Data.Iva
-      R.save();
-      res.json({Result: 1});
-  });
-});
-
-//delete
-router.post('/Delete/', function(req, res, next) {
-
-  var Data = req.body;
-
-  Producto.findOne ({where: {
-      Codigo: Data.Codigo,
-  }})
-  .then(R => {
-      R.destroy();
-      res.json({Result: 1});
+  DB.query("SELECT dbo.GREFERENCIA.GLBCodigoReferencia AS Referencia, \
+                   dbo.GREFERENCIA.GLBNombreReferencia AS Nombre,  \
+                   dbo.GREFERENCIA.GLBUnidadDeEmpaqueReferencia AS UnidadDeMedida, \
+                   dbo.GREFERENCIA.GLBUnidadesPorEmpaqueReferencia AS UnidadPorEmpaque, \
+                   dbo.GLINEAS.GLBNombreLinea AS Linea, \
+                   dbo.GPRECIOSPORREFERENCIA.GLBValorUnitarioPreciosPorReferencia AS PrecioBase, \
+                   dbo.GIMPUESTOSYRETENCIONES.GLBPorcentajeImpuestosYRetenciones AS Iva, \
+                   dbo.GREFERENCIA.GLBDescuento1Referencia AS PromocionDelProveedor, \
+                   dbo.GREFERENCIA.GLBDescuento2Referencia AS PromocionDelMes,"+
+                   //dbo.GIMPUESTOSYRETENCIONES.GLBPorcentajeImpuestosYRetenciones AS Iva,
+                   "dbo.INQ_Pedidos_Existencias.Existencia, \
+                   dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaCompraReferenciaPorBodega AS FechaUltimaCompra, \
+                   dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaVentaReferenciaPorBodega AS FechaUltimaVenta, \
+                   0 AS Cantidad, \
+                   SUBSTRING(dbo.GREFERENCIA.GLBComentarioReferencia, 5, 96) AS Observaciones, \
+                   '' AS ComentarioDetallePedido \
+            FROM dbo.GREFERENCIA \
+            INNER JOIN dbo.GREFERENCIAPORBODEGA \
+            ON dbo.GREFERENCIA.GLBCodigoReferencia = dbo.GREFERENCIAPORBODEGA.GLBCodigoReferenciaReferenciaPorBodega \
+            INNER JOIN dbo.GIMPUESTOSYRETENCIONES \
+            ON dbo.GREFERENCIA.GLBCodigoTarifaIvaReferencia = dbo.GIMPUESTOSYRETENCIONES.GLBCodigoImpuestosYRetenciones \
+            INNER JOIN dbo.INQ_Pedidos_Existencias ON dbo.GREFERENCIA.GLBCodigoReferencia = dbo.INQ_Pedidos_Existencias.Codiigo \
+            LEFT OUTER JOIN dbo.GLINEAS ON dbo.GREFERENCIA.GLBCodigoLineaReferencia = dbo.GLINEAS.GLBCodigoLinea \
+            LEFT OUTER JOIN dbo.GPRECIOSPORREFERENCIA ON dbo.GREFERENCIA.GLBCodigoReferencia = dbo.GPRECIOSPORREFERENCIA.GLBCodigoReferenciaPreciosPorReferencia \
+            WHERE (dbo.GREFERENCIAPORBODEGA.GLBCodigoBodegaReferenciaPorBodega = '1') AND (SUBSTRING(dbo.GREFERENCIA.GLBNombreReferencia, 1, 2) <> 'XX')")
+  .spread((Result, Metadata) => {
+      res.json(Result);
   });
 });
 

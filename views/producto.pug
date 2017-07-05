@@ -5,13 +5,18 @@ block content
   p Welcome to #{title}
 
   //form
-  div(class="grid-container")
+  select(id="Method", class="placeholder")
+    option(value="", class="placeholder") Método
+    option(value="Select", style="color: black") Select
+    option(value="Insert", style="color: black") Insert
+    option(value="Update", style="color: black") Update
+    option(value="Delete", style="color: black") Delete
+
+  div(id="ListaProductos")
     div(class="grid-x")
       div(class="large-1 cell")
-        input(type='text', id='Cantidad', placeholder='Cantidad (int)')
-      div(class="large-3 cell")
         input(type='text', id='Codigo', placeholder='Código (string)')
-      div(class="large-5 cell")
+      div(class="large-8 cell")
         input(type='text', id='Nombre', placeholder='Nombre (string)')
       div(class="large-1 cell")
         input(type='text', id='DescuentoProveedor', placeholder='Descuento Proveedor (string)')
@@ -25,4 +30,4 @@ block content
   //viewer
   div(id='tablero', data-toggler, data-animate="fade-in fade-out", class="callout secondary")
 
-  script(src="/js/cristaleria.cliente.js")
+  script(src="/js/cristaleria.producto.js")

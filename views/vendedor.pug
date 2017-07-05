@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+  //form
+  select(id="Method", class="placeholder")
+    option(value="", class="placeholder") Método
+    option(value="Select", style="color: black") Select
+    option(value="Insert", style="color: black") Insert
+    option(value="Update", style="color: black") Update
+    option(value="Delete", style="color: black") Delete
+  input(type='text', id='Nit', placeholder='Nit (int)')
+  input(type='text', id='Nombre', placeholder='Nombre (string)')
+  input(type='text', id='Direccion', placeholder='Dirección (string)')
+  input(type='text', id='Telefono', placeholder='Teléfono (string)')
+  input(type='text', id='Descuento', placeholder='Descuento (double)')
+
+  a(class="button", id="btnProbar") Send
+
+  //viewer
+  div(id='tablero', data-toggler, data-animate="fade-in fade-out", class="callout secondary")
+
+  script(src="/js/cristaleria.vendedor.js")

@@ -1,69 +1,29 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('../models/index');
-var Cliente = require('../models/Cliente');
+//var GCLIENTE = require('../models/remote/GCLIENTE');
+var DB = require('../models/remote/index');
 
 //select
 router.post('/Select/', function(req, res, next) {
 
   var Data = req.body;
 
-  Cliente.findOne({ where: {Nit: Data.Nit}})
-  .then(result => {
-      res.json(result);
-  });
-  //res.json({Result: 1});
-});
-
-//insert
-router.post('/Insert/', function(req, res, next) {
-
-  var Data = req.body;
-
-  Cliente.create ({
-      Nit: Data.Nit,
-      Nombre: Data.Nombre,
-      Direccion: Data.Direccion,
-      Telefono: Data.Telefono,
-      Descuento: Data.Descuento
-  })
-  .then(() => {
-      res.json({Result: 1});
-  });
-});
-
-
-//update
-router.post('/Update/', function(req, res, next) {
-
-  var Data = req.body;
-
-  Cliente.findOne ({where: {
-      Nit: Data.Nit,
-  }
-  })
-  .then(R => {
-      R.Nombre = Data.Nombre,
-      R.Direccion = Data.Direccion,
-      R.Telefono = Data.Telefono,
-      R.Descuento = Data.Descuento
-      R.save();
-      res.json({Result: 1});
-  });
-});
-
-//delete
-router.post('/Delete/', function(req, res, next) {
-
-  var Data = req.body;
-
-  Cliente.findOne ({where: {
-      Nit: Data.Nit,
-  }})
-  .then(R => {
-      R.destroy();
-      res.json({Result: 1});
+  DB.query("SELECT dbo.GCLIENTE.GLBIdentificadorUnoCliente AS Nit, \
+                          dbo.GCLIENTE.GLBSucursalCliente AS Sucursal, \
+                          dbo.GCLIENTE.GLBIdentificadorDosCliente AS Codigo, \
+                          dbo.GTERCEROS.GBLRazonSocialTerceros AS Nombre, \
+                          dbo.GTERCEROS.GBLDireccionTerceros AS Direccion, \
+                          dbo.GTERCEROS.GBLTelefono1Terceros AS Telefono1, \
+                          dbo.GTERCEROS.GBLTelefono2Terceros AS Telefono2, \
+                          dbo.GCLIENTE.GLBPorDescComercialUnoCliente AS Descuento, \
+                          dbo.GCLIENTE.GLBPlazoCliente AS Plazo \
+                  FROM dbo.GCLIENTE \
+                  INNER JOIN dbo.GTERCEROS \
+                  ON dbo.GCLIENTE.GLBIdentificadorUnoCliente = dbo.GTERCEROS.GBLIdentificadorUnoTerceros \
+                  AND dbo.GCLIENTE.GLBSucursalCliente = dbo.GTERCEROS.GBLSucursalTerceros")
+  .spread((Result, Metadata) => {
+      res.json(Result);
   });
 });
 

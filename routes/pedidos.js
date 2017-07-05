@@ -1,23 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('../models/index');
-var Pedido = require('../models/Pedido');
-var Cliente = require('../models/Cliente');
-var PedidoRegistro = require('../models/PedidoRegistro');
-var Producto = require('../models/Producto');
+var Pedido = require('../models/local/Pedido');
+var Cliente = require('../models/local/Cliente');
+var PedidoRegistro = require('../models/local/PedidoRegistro');
+var Producto = require('../models/local/Producto');
 
-//select
-router.post('/Select/', function(req, res, next) {
-
-  var Data = req.body;
-
-  Pedido.findOne({ where: {Codigo: Data.Codigo}, include: [Cliente, PedidoRegistro]})
-  .then(result => {
-      res.json(result);
-  });
-  //res.json({Result: 1});
-});
 
 //insert
 router.post('/Insert/', function(req, res, next) {
@@ -38,38 +26,5 @@ router.post('/Insert/', function(req, res, next) {
   });
 });
 
-
-//update
-router.post('/Update/', function(req, res, next) {
-
-  var Data = req.body;
-
-  Producto.findOne ({where: {
-      Codigo: Data.Codigo,
-  }
-  })
-  .then(R => {
-      R.Nombre = Data.Nombre,
-      R.DescuentoProveedor = Data.DescuentoProveedor,
-      R.PrecioUnitario = Data.PrecioUnitario,
-      R.Iva = Data.Iva
-      R.save();
-      res.json({Result: 1});
-  });
-});
-
-//delete
-router.post('/Delete/', function(req, res, next) {
-
-  var Data = req.body;
-
-  Producto.findOne ({where: {
-      Codigo: Data.Codigo,
-  }})
-  .then(R => {
-      R.destroy();
-      res.json({Result: 1});
-  });
-});
 
 module.exports = router;
