@@ -1,8 +1,8 @@
 var Sequelize = require('sequelize');
 
-const DB = new Sequelize('sqlite://models/cristaleria.sqlite');
+const DBLocal = new Sequelize('sqlite://models/local/cristaleria.sqlite');
 
-DB.authenticate()
+DBLocal.authenticate()
 .then(() => {
   console.log ('DB Local Connection is established successfully.');
 })
@@ -10,4 +10,4 @@ DB.authenticate()
   console.error ('DB Local Unable to connect to the database.', err);
 });
 
-module.exports = DB;
+module.exports = DBLocal;

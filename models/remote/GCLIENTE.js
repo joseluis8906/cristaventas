@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var DB = require('./index');
+var DBRemote = require('./index');
 
-const GCLIENTE = DB.define('GCLIENTE', {
+const GCLIENTE = DBRemote.define('GCLIENTE', {
   GLBIdentificadorUnoCliente: Sequelize.STRING,
   GLBSucursalCliente: Sequelize.STRING,
   GLBIdentificadorDosCliente: Sequelize.STRING,

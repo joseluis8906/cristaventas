@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var DB = require('./index');
+var DBRemote = require('./index');
 
-const GLINEAS = DB.define('GLINEAS', {
+const GLINEAS = DBRemote.define('GLINEAS', {
   GLBCodigoLinea: {type: Sequelize.STRING, primaryKey: true},
   GLBNombreLinea: Sequelize.STRING,
   GLBNivelLinea: Sequelize.INTEGER,

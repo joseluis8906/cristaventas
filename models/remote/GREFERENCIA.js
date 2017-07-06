@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var DB = require('./index');
+var DBRemote = require('./index');
 
-const GREFERENCIA = DB.define('GREFERENCIA', {
+const GREFERENCIA = DBRemote.define('GREFERENCIA', {
   GLBCodigoReferencia: {type: Sequelize.STRING, primaryKey: true},
   GLBNombreReferencia: Sequelize.STRING,
   GLBUnidadDeEmpaqueReferencia: Sequelize.STRING,

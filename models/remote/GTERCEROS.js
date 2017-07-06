@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var DB = require('./index');
+var DBRemote = require('./index');
 
-const GTERCEROS = DB.define('GTERCEROS', {
+const GTERCEROS = DBRemote.define('GTERCEROS', {
   GBLIdentificadorUnoTerceros: Sequelize.STRING,
   GBLSucursalTerceros: Sequelize.STRING,
   GBLRazonSocialTerceros: Sequelize.STRING,

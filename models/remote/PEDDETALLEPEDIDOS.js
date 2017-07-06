@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var DB = require('./index');
+var DBRemote = require('./index');
 
-const PEDDETALLEPEDIDOS = DB.define('PEDDETALLEPEDIDOS', {
+const PEDDETALLEPEDIDOS = DBRemote.define('PEDDETALLEPEDIDOS', {
   PEDPrefijoPedidoDetallePedido: Sequelize.STRING,
   PEDNumeroPedidoDetallePedido: Sequelize.STRING,
   PEDItemDetallePedido: Sequelize.STRING,

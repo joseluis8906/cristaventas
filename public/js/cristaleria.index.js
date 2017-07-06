@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $(document).foundation();
-    $("select").change(selectPlaceholder);
+    //$("select").change(selectPlaceholder);
 });
 
 window.onload = function()
@@ -8,41 +8,14 @@ window.onload = function()
     var button = document.getElementById ("btnProbar");
     button.onclick = function ()
     {
-        // escribir nombre de la aplicacion sin slash
-        var app = 'clientes';
-
         // escribir nombre del método sin slash
-        var metodo = GetValue("Method");
+        var url = $('#Url').val();
 
         // el objeto json que se envía
-        var objetoJson = {
-          Nit: GetValue("Nit"),
-          Nombre: GetValue("Nombre"),
-          Direccion: GetValue("Direccion"),
-          Telefono: GetValue("Telefono"),
-          Descuento: GetValue("Descuento"),
-          /*NormaTecnica: GetValue("NormaTecnica"),
-          Propietario: GetValue("Propietario"),
-          Presion: GetValue("Presion"),
-          AlturaConValvula: GetValue("AlturaConValvula"),
-          PesoConValvula: GetValue("PesoConValvula"),
-          Valvula: GetValue("Valvula"),
-          TipoValvula: GetValue("TipoValvula"),
-          AcabadoColor: GetValue("AcabadoColor"),
-          Proveedor: GetValue("Proveedor"),
-          FechaCompra: GetValue("FechaCompra"),
-          Garantia: GetValue("Garantia"),
-          FechaFabricacion: GetValue("FechaFabricacion"),
-          PruebaHidrostatica: GetValue("PruebaHidrostatica"),
-          Alquilado: GetValue("Alquilado"),
-          FechaAlquiler: GetValue("FechaAlquiler"),
-          Observaciones: GetValue("Observaciones")*/
-          //aqui las propiedades que vayan a enviar en el objeto json
-        };
-
+        var objetoJson = JSON.parse($('#Data').val());
 
         var xhttp = new XMLHttpRequest ();
-        xhttp.open ("POST", "/"+app+"/"+metodo+"/");
+        xhttp.open ("POST", url);
         xhttp.setRequestHeader("Content-Type", "application/json");
         xhttp.onreadystatechange = function()
         {
@@ -55,7 +28,7 @@ window.onload = function()
         xhttp.send (JSON.stringify (objetoJson));
     }
 }
-
+/*
 function selectPlaceholder ()
 {
    if (this.value == '')
@@ -119,3 +92,4 @@ function Response (Res)
         $("#Descuento").val(Res.Descuento);
     }
 }
+*/

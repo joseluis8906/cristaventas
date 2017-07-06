@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var DB = require('../models/remote/index');
+var Inventario = require('../models/local/Inventario');
 
 //select
 router.post('/Select/', function(req, res, next) {
@@ -12,6 +13,7 @@ router.post('/Select/', function(req, res, next) {
                    dbo.GREFERENCIA.GLBNombreReferencia AS Nombre,  \
                    dbo.GREFERENCIA.GLBUnidadDeEmpaqueReferencia AS UnidadDeMedida, \
                    dbo.GREFERENCIA.GLBUnidadesPorEmpaqueReferencia AS UnidadPorEmpaque, \
+                   SUBSTRING(dbo.GREFERENCIA.GLBComentarioReferencia, 1, 3) AS ModeloContable, \
                    dbo.GLINEAS.GLBNombreLinea AS Linea, \
                    dbo.GPRECIOSPORREFERENCIA.GLBValorUnitarioPreciosPorReferencia AS PrecioBase, \
                    dbo.GIMPUESTOSYRETENCIONES.GLBPorcentajeImpuestosYRetenciones AS Iva, \
@@ -20,9 +22,9 @@ router.post('/Select/', function(req, res, next) {
                    //dbo.GIMPUESTOSYRETENCIONES.GLBPorcentajeImpuestosYRetenciones AS Iva,
                    "dbo.INQ_Pedidos_Existencias.Existencia, \
                    dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaCompraReferenciaPorBodega AS FechaUltimaCompra, \
-                   dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaVentaReferenciaPorBodega AS FechaUltimaVenta, \
-                   0 AS Cantidad, \
-                   SUBSTRING(dbo.GREFERENCIA.GLBComentarioReferencia, 5, 96) AS Observaciones, \
+                   dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaVentaReferenciaPorBodega AS FechaUltimaVenta, "+
+                   //0 AS Cantidad, \
+                   "SUBSTRING(dbo.GREFERENCIA.GLBComentarioReferencia, 5, 96) AS Observaciones, \
                    '' AS ComentarioDetallePedido \
             FROM dbo.GREFERENCIA \
             INNER JOIN dbo.GREFERENCIAPORBODEGA \

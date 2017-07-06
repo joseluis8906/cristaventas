@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var DB = require('./index');
+var DBRemote = require('./index');
 
-const GIMPUESTOSYRETENCIONES = DB.define('GIMPUESTOSYRETENCIONES', {
+const GIMPUESTOSYRETENCIONES = DBRemote.define('GIMPUESTOSYRETENCIONES', {
   GLBCodigoImpuestosYRetenciones: {type: Sequelize.STRING, primaryKey: true},
   GLBNombreImpuestosYRetenciones: Sequelize.STRING,
   GLBIdImpuestosYRetenciones: Sequelize.STRING,

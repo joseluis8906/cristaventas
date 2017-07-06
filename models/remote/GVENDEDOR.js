@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var DB = require('./index');
+var DBRemote = require('./index');
 
-const GVENDEDOR = DB.define('GVENDEDOR', {
+const GVENDEDOR = DBRemote.define('GVENDEDOR', {
   GLBIdentificadorUnoVendedor: Sequelize.STRING,
   GLBSucursalVendedor: Sequelize.STRING,
   GLBIdentificadorDosVendedor: Sequelize.STRING,

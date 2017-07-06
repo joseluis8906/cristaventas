@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var DB = require('./index');
+var DBRemote = require('./index');
 
-const GREFERENCIAPORBODEGA = DB.define('GREFERENCIAPORBODEGA', {
+const GREFERENCIAPORBODEGA = DBRemote.define('GREFERENCIAPORBODEGA', {
   GLBCodigoReferenciaReferenciaPorBodega: Sequelize.STRING,
   GLBCodigoBodegaReferenciaPorBodega: Sequelize.STRING,
   GLBUltimaFechaCompraReferenciaPorBodega: Sequelize.STRING,

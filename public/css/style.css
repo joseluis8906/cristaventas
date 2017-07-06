@@ -5261,3 +5261,6 @@ body {
 
 #tablero {
   display: none; }
+
+#Data {
+  height: 256px; }

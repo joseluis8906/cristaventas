@@ -1,11 +1,11 @@
 var Sequelize = require('sequelize');
-var DB = require('./index');
-var Producto = require('./Producto');
+var DBLocal = require('./index');
 
-const Inventario = DB.define('Inventario', {
-    ProductoId: {type: Sequelize.INTEGER, primaryKey: true, references: Producto, referencesKey: 'Id'},
-    CantidadDisponible: Sequelize.INTEGER,
-    CantidadVendida: Sequelize.INTEGER
+const Inventario = DBLocal.define('Inventario', {
+    Id: {type: Sequelize.INTEGER, primaryKey: true},
+    Referencia: {type: Sequelize.STRING, unique: true},
+    Nombre: Sequelize.STRING,
+    Existencia: Sequelize.INTEGER
   },
   {
     timestamps: false,
@@ -13,8 +13,5 @@ const Inventario = DB.define('Inventario', {
     //schema: 'Auth'
   }
 );
-
-Inventario.belongsTo(Producto);
-Producto.hasOne(Inventario);
 
 module.exports = Inventario;

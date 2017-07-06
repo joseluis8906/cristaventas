@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var DB = require('./index');
+var DBRemote = require('./index');
 
-const GPRECIOSPORREFERENCIA = DB.define('GPRECIOSPORREFERENCIA', {
+const GPRECIOSPORREFERENCIA = DBRemote.define('GPRECIOSPORREFERENCIA', {
   GLBCodigoReferenciaPreciosPorReferencia: Sequelize.STRING,
   GLBCodigoListapreciosPreciosPorReferencia: Sequelize.STRING,
   GLBValorUnitarioPreciosPorReferencia: Sequelize.DECIMAL,
