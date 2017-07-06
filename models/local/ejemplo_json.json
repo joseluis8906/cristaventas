@@ -1,0 +1,45 @@
+{
+"PrefijoPedido": "N",
+"NumeroPedido": "000000000002500",
+"CodigoTipoDocumento": "102",
+"FechaPedido": "08/07/2017",
+"FechaEntrega": "10/07/2017",
+"IdentificadorDosCliente": "123456789",
+"IdentificadorUnoCliente": "123456789-1",
+"SucursalCliente": "000",
+"IdentificadorUnoVendedor": "987654321",
+"SucursalVendedor": "000",
+"IdentificadorDosVendedor": "987654321",
+"Plazo": 8,
+"ValorNeto": 500000,
+"Detalles": [
+    {
+        "PrefijoPedido": "N",
+        "NumeroPedido": "000000000002500",
+        "Item": "00001",
+        "CodigoReferencia": "01300003",
+        "CantidadPedida": 11,
+        "DescuentoCliente": 4.5,
+        "DescuentoProveedor": 8.3,
+        "PrecioBase": 1500,
+        "LimiteIva": 19,
+        "Iva": 19,
+        "ModeloContable": "004",
+        "Comentarios": "Todo bien"
+    },
+    {
+        "PrefijoPedido": "N",
+        "NumeroPedido": "000000000002500",
+        "Item": "00002",
+        "CodigoReferencia": "01300004",
+        "CantidadPedida": 7,
+        "DescuentoCliente": 4.5,
+        "DescuentoProveedor": 3,
+        "PrecioBase": 3800,
+        "LimiteIva": 19,
+        "Iva": 19,
+        "ModeloContable": "002",
+        "Comentarios": "Todo ok"
+    }
+]
+}

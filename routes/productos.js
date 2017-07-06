@@ -17,10 +17,10 @@ router.post('/Select/', function(req, res, next) {
                    dbo.GLINEAS.GLBNombreLinea AS Linea, \
                    dbo.GPRECIOSPORREFERENCIA.GLBValorUnitarioPreciosPorReferencia AS PrecioBase, \
                    dbo.GIMPUESTOSYRETENCIONES.GLBPorcentajeImpuestosYRetenciones AS Iva, \
+                   dbo.GIMPUESTOSYRETENCIONES.GLBLimiteInferiorImpuestosYRetenciones AS LimiteIva, \
                    dbo.GREFERENCIA.GLBDescuento1Referencia AS PromocionDelProveedor, \
-                   dbo.GREFERENCIA.GLBDescuento2Referencia AS PromocionDelMes,"+
-                   //dbo.GIMPUESTOSYRETENCIONES.GLBPorcentajeImpuestosYRetenciones AS Iva,
-                   "dbo.INQ_Pedidos_Existencias.Existencia, \
+                   dbo.GREFERENCIA.GLBDescuento2Referencia AS PromocionDelMes, \
+                   dbo.INQ_Pedidos_Existencias.Existencia, \
                    dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaCompraReferenciaPorBodega AS FechaUltimaCompra, \
                    dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaVentaReferenciaPorBodega AS FechaUltimaVenta, "+
                    //0 AS Cantidad, \
