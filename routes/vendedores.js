@@ -17,8 +17,8 @@ router.post('/Select/', function(req, res, next) {
                     SUBSTRING(dbo.GVENDEDOR.GLBComentariosVendedor, 3, 3) AS CodigoTipoDocumento \
             FROM dbo.GVENDEDOR INNER JOIN dbo.GTERCEROS \
             ON dbo.GVENDEDOR.GLBIdentificadorUnoVendedor = dbo.GTERCEROS.GBLIdentificadorUnoTerceros \
-            AND dbo.GVENDEDOR.GLBSucursalVendedor = dbo.GTERCEROS.GBLSucursalTerceros")
-  .spread((Result, Metadata) => {
+            AND dbo.GVENDEDOR.GLBSucursalVendedor = dbo.GTERCEROS.GBLSucursalTerceros"
+  ).spread((Result, Metadata) => {
       /*for (var i = 0; i < Result.length; i++)
       {
           Usuario.create({

@@ -22,9 +22,8 @@ router.post('/Select/', function(req, res, next) {
                    dbo.GREFERENCIA.GLBDescuento2Referencia AS PromocionDelMes, \
                    dbo.INQ_Pedidos_Existencias.Existencia, \
                    dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaCompraReferenciaPorBodega AS FechaUltimaCompra, \
-                   dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaVentaReferenciaPorBodega AS FechaUltimaVenta, "+
-                   //0 AS Cantidad, \
-                   "SUBSTRING(dbo.GREFERENCIA.GLBComentarioReferencia, 5, 96) AS Observaciones, \
+                   dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaVentaReferenciaPorBodega AS FechaUltimaVenta, \
+                   SUBSTRING(dbo.GREFERENCIA.GLBComentarioReferencia, 5, 96) AS Observaciones, \
                    '' AS ComentarioDetallePedido \
             FROM dbo.GREFERENCIA \
             INNER JOIN dbo.GREFERENCIAPORBODEGA \
