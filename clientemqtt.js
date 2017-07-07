@@ -3,7 +3,7 @@ const ClienteMqtt = mqtt.connect('mqtt://149.56.109.238:1883', {username: 'andro
 
 ClienteMqtt.on('connect', function () {
   ClienteMqtt.subscribe('dcp/pedidos');
-  ClienteMqtt.publish('dcp/pedidos', 'Servidor nodejs conectado por mqtt');
+  ClienteMqtt.publish('dcp/pedidos', 'Servidor nodejs conectado');
 })
 
 ClienteMqtt.on('message', function (topic, message) {

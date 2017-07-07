@@ -57,5 +57,28 @@ router.post('/login/', function (req, res, next) {
     });
 });
 
+router.post('/private/password/Change/', function (req, res, next) {
+  var Data = (req.body);
+
+  var salt = bcrypt.genSaltSync();
+
+  Usuario.findOne({ where: {Codigo: Data.Codigo}
+  }).then(R => {
+    var verify = bcrypt.compareSync(Data.ClaveActual, R.Clave);
+
+    if (verify)
+    {
+      R.Clave = bcrypt.hashSync(Data.ClaveNueva, salt);
+      R.save();
+      res.json({Result: 1});
+    }
+
+    res.json({Result: 0, Err: "Clave actual erronea"});
+
+  });
+
+});
+
+
 
 module.exports = router;
