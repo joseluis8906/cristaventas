@@ -62,7 +62,7 @@ router.post('/Update/Sub/', function(req, res, next) {
 
 });
 
-
+/*
 //delete
 router.post('/Delete/', function(req, res, next) {
 
@@ -74,6 +74,6 @@ router.post('/Delete/', function(req, res, next) {
       res.json({Result: 1});
   });
 
-});
+});*/
 
 module.exports = router;
