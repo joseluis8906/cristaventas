@@ -28,10 +28,8 @@ const PEDDETALLEPEDIDOS = DBLocal.define('PEDDETALLEPEDIDOS', {
   PEDPrecioNIIFOtraMonedaDetallePedido: Sequelize.DECIMAL
   },
   {
-    //indexes:[{primary: true, name: "PK_PEDDETALLEPEDIDOS", fields: ["PEDPrefijoPedidoDetallePedido", "PEDNumeroPedidoDetallePedido", "PEDItemDetallePedido"]}],
     timestamps: false,
     freezeTableName: true,
-    schema: 'dbo'
   }
 );
 

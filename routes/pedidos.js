@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+var sequelize = require('sequelize');
+//var DBRemote = require('../models/remote/index');
+var DBLocal = require('../models/local/index');
 var PEDENCABEZADOPEDIDOS = require('../models/local/PEDENCABEZADOPEDIDOS');
 var PEDDETALLEPEDIDOS = require('../models/local/PEDDETALLEPEDIDOS');
 
@@ -9,53 +12,51 @@ var PEDDETALLEPEDIDOS = require('../models/local/PEDDETALLEPEDIDOS');
 router.post('/Insert/', function(req, res, next) {
 
   var Data = req.body;
-  console.log(Data.Detalles.length);
-
   /*return sequelize.transaction(function (t) {*/
 
     // chain all your queries here. make sure you return them.
         PEDENCABEZADOPEDIDOS.create({
-        PEDPrefijoPedidoEncabezadoPedidos: Data.PrefijoPedido, //primer caracter de campo comentario tabla vendedores
-        PEDNumeroPedidoEncabezadoPedidos: Data.NumeroPedido, //numero del consecutivo del pedido del vendedor
-        PEDIdDocumentoEncabezadoPedidos: 'PD',
-        PEDCodigoTipoDocumentoEncabezadoPedidos: Data.CodigoTipoDocumento, //ultimos tres caracteres de campo comentario tabla vendedor
-        PEDFechaPedidoEncabezadoPedidos: Data.FechaPedido, //fecha en formato dd/mm/aaaa
-        PEDFechaEntregaEncabezadoPedidos: Data.FechaEntrega, //fecha en formato dd/mm/aaaa
-        PEDIdentificadorDosClienteEncabezadoPedidos: Data.IdentificadorDosCliente, //numero de IdentificadorDosCliente
-        PEDIdentificadorUnoClienteEncabezadoPedidos: Data.IdentificadorUnoCliente, //numeo de IdentificadorUnoCliente
-        PEDSucursalClienteEncabezadoPedidos: Data.SucursalCliente, //sucursal tabla clientes
-        PEDIdentificadorUnoVendedorEncabezadoPedidos: Data.IdentificadorUnoVendedor, //numero IdentificadorUnoVendedor
-        PEDSucursalVendedorEncabezadoPedidos: Data.SucursalVendedor, //sucursal vendedor
-        PEDIdentificadorDosVendedorEncabezadoPedidos: Data.IdentificadorDosVendedor, //numero de IdentificadorDosVendedor
-        PEDPlazoEncabezadoPedidos: Data.Plazo, //numero plazo tabla clientes
-        PEDCodigoMonedaEncabezadoPedidos: '000',
-        PEDTasaCambioEncabezadoPedidos: 0,
-        PEDEstadoEncabezadoPedidos: 'DI',
-        PEDPorcDescComercialUnoEncabezadoPedidos: 0,
-        PEDPorcDescComercialDosEncabezadoPedidos: 0,
-        PEDPorcDescComercialTresEncabezadoPedidos: 0,
-        PEDPorcDescFinancieroUnoEncabezadoPedidos: 0,
-        PEDPorcDescFinancieroDosEncabezadoPedidos: 0,
-        PEDPorcDescFinancieroTresEncabezadoPedidos: 0,
-        PEDDiasDescFinancieroUnoEncabezadoPedidos: 0,
-        PEDDiasDescFinancieroDosEncabezadoPedidos: 0,
-        PEDDiasDescFinancieroTresEncabezadoPedidos: 0,
-        PEDNroCuotasEncabezadoPedidos: 0,
-        PEDPeriodicidadEncabezadoPedidos: 0,
-        PEDPorcentajeFinanciacionEncabezadoPedidos: 0,
-        PEDFormulaEncabezadoPedidos: null,
-        PEDValorInicialEncabezadoPedidos: 0,
-        PEDValorNetoEncabezadoPedidos: Data.ValorNeto,
-        PEDTransportadorEncabezadoPedidos: null,
-        PEDPorcRetencionIvaEncabezadoPedidos: 0,
-        PEDPorcRetencionIcaEncabezadoPedidos: 0,
-        PEDComentariosEncabezadoPedidos: null,
-        PEDOrigenMovimientoEncabezadoPedidos: 'PED',
-        PEDImpresoEncabezadoPedidos: 0,
-        PEDNumeroDocto1EncabezadoPedidos: null,
-        PEDNumeroDocto2EncabezadoPedidos: null,
-        PEDPrefijocotizacionEncabezadoPedidos: null,
-        PEDNumerocotizacionEncabezadoPedidos: null
+          PEDPrefijoPedidoEncabezadoPedidos: Data.PrefijoPedido, //primer caracter de campo comentario tabla vendedores
+          PEDNumeroPedidoEncabezadoPedidos: Data.NumeroPedido, //numero del consecutivo del pedido del vendedor
+          PEDIdDocumentoEncabezadoPedidos: 'PD',
+          PEDCodigoTipoDocumentoEncabezadoPedidos: Data.CodigoTipoDocumento, //ultimos tres caracteres de campo comentario tabla vendedor
+          PEDFechaPedidoEncabezadoPedidos: Data.FechaPedido, //fecha en formato dd/mm/aaaa
+          PEDFechaEntregaEncabezadoPedidos: Data.FechaEntrega, //fecha en formato dd/mm/aaaa
+          PEDIdentificadorDosClienteEncabezadoPedidos: Data.IdentificadorDosCliente, //numero de IdentificadorDosCliente
+          PEDIdentificadorUnoClienteEncabezadoPedidos: Data.IdentificadorUnoCliente, //numeo de IdentificadorUnoCliente
+          PEDSucursalClienteEncabezadoPedidos: Data.SucursalCliente, //sucursal tabla clientes
+          PEDIdentificadorUnoVendedorEncabezadoPedidos: Data.IdentificadorUnoVendedor, //numero IdentificadorUnoVendedor
+          PEDSucursalVendedorEncabezadoPedidos: Data.SucursalVendedor, //sucursal vendedor
+          PEDIdentificadorDosVendedorEncabezadoPedidos: Data.IdentificadorDosVendedor, //numero de IdentificadorDosVendedor
+          PEDPlazoEncabezadoPedidos: Data.Plazo, //numero plazo tabla clientes
+          PEDCodigoMonedaEncabezadoPedidos: '000',
+          PEDTasaCambioEncabezadoPedidos: 0,
+          PEDEstadoEncabezadoPedidos: 'DI',
+          PEDPorcDescComercialUnoEncabezadoPedidos: 0,
+          PEDPorcDescComercialDosEncabezadoPedidos: 0,
+          PEDPorcDescComercialTresEncabezadoPedidos: 0,
+          PEDPorcDescFinancieroUnoEncabezadoPedidos: 0,
+          PEDPorcDescFinancieroDosEncabezadoPedidos: 0,
+          PEDPorcDescFinancieroTresEncabezadoPedidos: 0,
+          PEDDiasDescFinancieroUnoEncabezadoPedidos: 0,
+          PEDDiasDescFinancieroDosEncabezadoPedidos: 0,
+          PEDDiasDescFinancieroTresEncabezadoPedidos: 0,
+          PEDNroCuotasEncabezadoPedidos: 0,
+          PEDPeriodicidadEncabezadoPedidos: 0,
+          PEDPorcentajeFinanciacionEncabezadoPedidos: 0,
+          PEDFormulaEncabezadoPedidos: null,
+          PEDValorInicialEncabezadoPedidos: 0,
+          PEDValorNetoEncabezadoPedidos: Data.ValorNeto,
+          PEDTransportadorEncabezadoPedidos: null,
+          PEDPorcRetencionIvaEncabezadoPedidos: 0,
+          PEDPorcRetencionIcaEncabezadoPedidos: 0,
+          PEDComentariosEncabezadoPedidos: null,
+          PEDOrigenMovimientoEncabezadoPedidos: 'PED',
+          PEDImpresoEncabezadoPedidos: 0,
+          PEDNumeroDocto1EncabezadoPedidos: null,
+          PEDNumeroDocto2EncabezadoPedidos: null,
+          PEDPrefijocotizacionEncabezadoPedidos: null,
+          PEDNumerocotizacionEncabezadoPedidos: null
       }).then(()=>{
     /*}, {transaction: t}).then(function (user) {*/
       for (var i = 0; i < Data.Detalles.length; i++)
@@ -112,6 +113,24 @@ router.post('/Insert/', function(req, res, next) {
   .spread((Result, Metadata) => {
       res.json(Result);
   });*/
+});
+
+router.post('/Last/', function(req, res, next) {
+    var Data = req.body;
+    /*
+    DBRemote.query("SELECT TOP 1 * FROM dbo.PEDENCABEZADOPEDIDOS \
+                      WHERE PEDPrefijoPedidoEncabezadoPedidos =  ? \
+                      AND LEN(PEDNumeroPedidoEncabezadoPedidos) = 15 \
+                      ORDER BY PEDNumeroPedidoEncabezadoPedidos DESC",
+    { replacements: [Data.PrefijoPedido], type: sequelize.QueryTypes.SELECT })
+    */
+    DBLocal.query("SELECT * FROM PEDENCABEZADOPEDIDOS \
+                      WHERE PEDPrefijoPedidoEncabezadoPedidos =  ? \
+                      AND length(PEDNumeroPedidoEncabezadoPedidos) = 15 \
+                      ORDER BY PEDNumeroPedidoEncabezadoPedidos DESC LIMIT 1",
+    { replacements: [Data.PrefijoPedido], type: sequelize.QueryTypes.SELECT }).spread((Result, Metadata) => {
+        res.json(Result);
+    });
 });
 
 module.exports = router;

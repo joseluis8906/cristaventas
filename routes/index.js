@@ -44,7 +44,7 @@ router.post('/login/', function (req, res, next) {
               var token = jwt.sign({User: R.Codigo}, req.app.get('superSecret'), {
                 expiresIn: "12h" // expires in 365 dias
               });
-              res.json({Result: 1, Token: token});
+              res.json({Result: 1, Token: token, Cedula: R.Cedula, Sucursal: R.Sucursal, Codigo: R.Codigo, Nombre: R.Nombre, PrefijoPedido: R.PrefijoPedido, CodigoTipoDocumento: R.CodigoTipoDocumento});
             }
             else {
               res.json({Result: 0, Err: "Clave equivocada"});

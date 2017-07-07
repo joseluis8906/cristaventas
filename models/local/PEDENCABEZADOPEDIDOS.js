@@ -45,10 +45,8 @@ const PEDENCABEZADOPEDIDOS = DBLocal.define('PEDENCABEZADOPEDIDOS', {
   PEDNumerocotizacionEncabezadoPedidos: Sequelize.STRING
   },
   {
-    //indexes:[{primary: true, name: "PK_PEDENCABEZADOPEDIDOS", fields: ["PEDPrefijoPedidoEncabezadoPedidos", "PEDNumeroPedidoEncabezadoPedidos"]}],
     timestamps: false,
     freezeTableName: true,
-    schema: 'dbo'
   }
 );
 
