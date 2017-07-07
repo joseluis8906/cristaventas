@@ -42,7 +42,7 @@ router.post('/login/', function (req, res, next) {
         bcrypt.compare(Data.Clave, R.Clave, function(err, result) {
             if(result){
               var token = jwt.sign({User: R.Codigo}, req.app.get('superSecret'), {
-                expiresIn: "12h" // expires in 365 dias
+                expiresIn: "365d"//expires in 365 dias
               });
               res.json({Result: 1, Token: token, Cedula: R.Cedula, Sucursal: R.Sucursal, Codigo: R.Codigo, Nombre: R.Nombre, PrefijoPedido: R.PrefijoPedido, CodigoTipoDocumento: R.CodigoTipoDocumento});
             }

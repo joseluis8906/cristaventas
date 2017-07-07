@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var ClienteMqtt = require('../clientemqtt');
 var Inventario = require('../models/local/Inventario');
 
 
@@ -9,8 +9,8 @@ router.post('/Select/', function(req, res, next) {
 
   var Data = req.body;
 
-  Inventario.findOne({ where: {Referencia: Data.Referencia}})
-  .then(result => {
+  Inventario.findOne({ where: {Referencia: Data.Referencia}
+  }).then(result => {
       res.json(result);
   });
 
@@ -25,8 +25,7 @@ router.post('/Insert/', function(req, res, next) {
   Inventario.create({
     Referencia: Data.Referencia,
     Existencia: Data.Existencia
-  })
-  .then(() => {
+  }).then(() => {
       res.json({Result: 1});
   });
 
@@ -37,14 +36,18 @@ router.post('/Insert/', function(req, res, next) {
 router.post('/Update/Add/', function(req, res, next) {
 
   var Data = req.body;
+  Data.Operacion = "Add";
 
-  Inventario.findOne ({where: {Referencia: Data.Referencia}})
-  .then(Result => {
+  Inventario.findOne ({where: {Referencia: Data.Referencia}
+  }).then(Result => {
       Result.Existencia += Number(Data.Existencia),
       Result.save();
       res.json({Result: 1});
+      if(ClienteMqtt.IsConnected())
+      {
+        ClienteMqtt.Publish(Data);
+      }
   });
-
 });
 
 
@@ -52,14 +55,18 @@ router.post('/Update/Add/', function(req, res, next) {
 router.post('/Update/Sub/', function(req, res, next) {
 
   var Data = req.body;
+  Data.Operacion = "Sub";
 
-  Inventario.findOne ({where: {Referencia: Data.Referencia}})
-  .then(Result => {
+  Inventario.findOne ({where: {Referencia: Data.Referencia}
+  }).then(Result => {
       Result.Existencia -= Number(Data.Existencia),
       Result.save();
       res.json({Result: 1});
+      if(ClienteMqtt.IsConnected())
+      {
+        ClienteMqtt.Publish(Data);
+      }
   });
-
 });
 
 /*

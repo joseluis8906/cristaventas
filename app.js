@@ -13,6 +13,7 @@ var productos = require('./routes/productos');
 var inventario = require('./routes/inventario');
 var pedidos = require('./routes/pedidos');
 var jwt = require('jsonwebtoken');
+var ClienteMqtt = require('./clientemqtt');
 
 var app = express();
 var router = express.Router();
