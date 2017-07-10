@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Cliete = require('../models/local/Cliente');
+var Cliente = require('../models/local/Cliente');
 
 //var GCLIENTE = require('../models/remote/GCLIENTE');
 var DB = require('../models/remote/index');
