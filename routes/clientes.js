@@ -6,7 +6,7 @@ var Cliente = require('../models/local/Cliente');
 var DB = require('../models/remote/index');
 
 //sincronizar remota con local
-router.post('/Sync/', function(req, res, next) {
+router.post('/Select/', function(req, res, next) {
 
   var Data = req.body;
 
@@ -32,6 +32,7 @@ router.post('/Sync/', function(req, res, next) {
 });
 
 
+/*
 //seleccionar todos los clientes
 router.post('/Select/', function(req, res, next){
   Cliente.findAll().then(Result => {
@@ -40,5 +41,6 @@ router.post('/Select/', function(req, res, next){
     res.json({Result: 0, Err: Err});
   });
 });
+*/
 
 module.exports = router;
