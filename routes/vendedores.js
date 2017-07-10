@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var Usuario = require('../models/local/Usuario');
+var Vendedor = require('../models/local/Vendedor');
 
 var DB = require('../models/remote/index');
 
 //select
-router.post('/Select/', function(req, res, next) {
+router.post('/Sync/', function(req, res, next) {
 
   var Data = req.body;
 
@@ -21,7 +21,7 @@ router.post('/Select/', function(req, res, next) {
   ).spread((Result, Metadata) => {
       /*for (var i = 0; i < Result.length; i++)
       {
-          Usuario.create({
+          Vendedor.create({
             Cedula: Result[i].Cedula,
             Sucursal: Result[i].Sucursal,
             Codigo: Result[i].Codigo,
@@ -31,7 +31,21 @@ router.post('/Select/', function(req, res, next) {
           });
       }*/
       res.json(Result);
+  }).catch(Err => {
+      res.json({Result:0, Err: Err});
+  });
+
+});
+
+
+//seleccionar todos los vendedores
+router.post('/Select/', function(req, res, next){
+  Vendedor.findAll().then(Result => {
+    res.json(Result);
+  }).catch(Err => {
+    res.json({Result: 0, Err: Err});
   });
 });
+
 
 module.exports = router;

@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 var DBLocal = require('./index');
 
-const Usuario = DBLocal.define('Usuario', {
+const Vendedor = DBLocal.define('Vendedor', {
     Id: {type: Sequelize.INTEGER, primaryKey: true},
     Cedula: Sequelize.STRING,
     Sucursal: Sequelize.STRING,
@@ -18,4 +18,4 @@ const Usuario = DBLocal.define('Usuario', {
   }
 );
 
-module.exports = Usuario;
+module.exports = Vendedor;

@@ -1,0 +1,35 @@
+extends layout
+
+block content
+
+  h1(style="text-align:center;")= Acronimo
+  p(style="text-align:center") #{Nombre}
+
+  div(class="card-info warning")
+    div(class="card-info-label")
+      div(class="card-info-label-text") DCP
+
+    div(class="card-info-content")
+      h2(class="lead") Actualizar
+      object(id="BtnUpdate", data="/images/gwt.gui.btn.update.svg", class="gwt_gui_btn_update")
+      input(type="password", id="Clave", placeholder="Clave", maxlength=4)
+      p Escriba la clave y presione el botón verde.
+
+  div(data-reveal, class="reveal success", id="Success")
+    img(class="header" src="/images/gwt.gui.img.success.svg")
+    h2(class="lead") Exito!
+    p(class="lead", id="SuccessMsg") Message Default.
+    div(class="footer" data-close="Success")
+      span Salir
+
+  div(data-reveal, class="reveal failure", id="Failure")
+    img(class="header" src="/images/gwt.gui.img.failure.svg")
+    h2(class="lead") Falló!
+    p(class="lead", id="FailureMsg") Message Default.
+    div(class="footer" data-close="Failure")
+      span Salir
+
+block scripts
+  script(src="/js/cristaleria.data.js")
+  script(src="/js/cristaleria.jsonreq.js")
+  script(src="/js/gwt.gui.btn.update.js")

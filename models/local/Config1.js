@@ -1,11 +1,9 @@
 var Sequelize = require('sequelize');
 var DBLocal = require('./index');
 
-const Inventario = DBLocal.define('Inventario', {
+const Config1 = DBLocal.define('Config1', {
     Id: {type: Sequelize.INTEGER, primaryKey: true},
-    Referencia: {type: Sequelize.STRING, unique: true},
-    Nombre: Sequelize.STRING,
-    Existencia: Sequelize.INTEGER
+    Clave: Sequelize.STRING
   },
   {
     timestamps: false,
@@ -14,4 +12,4 @@ const Inventario = DBLocal.define('Inventario', {
   }
 );
 
-module.exports = Inventario;
+module.exports = Config1;

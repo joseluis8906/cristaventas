@@ -92,7 +92,7 @@ router.post('/Insert/', function(req, res, next) {
       }
       res.json({Result: 1});
 
-    }).catch(function (err) {
+    }).catch(function (Err) {
       // Transaction has been rolled back
       // err is whatever rejected the promise chain returned to the transaction callback
       res.json({Result: 0, Err: err})
@@ -128,8 +128,11 @@ router.post('/Last/', function(req, res, next) {
                       WHERE PEDPrefijoPedidoEncabezadoPedidos =  ? \
                       AND length(PEDNumeroPedidoEncabezadoPedidos) = 15 \
                       ORDER BY PEDNumeroPedidoEncabezadoPedidos DESC LIMIT 1",
-    { replacements: [Data.PrefijoPedido], type: sequelize.QueryTypes.SELECT }).spread((Result, Metadata) => {
+    { replacements: [Data.PrefijoPedido], type: sequelize.QueryTypes.SELECT
+    }).spread((Result, Metadata) => {
         res.json(Result);
+    }).catch(Err => {
+        res.json({Result:0, Err: Err});
     });
 });
 

@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var Cliete = require('../models/local/Cliente');
 
 //var GCLIENTE = require('../models/remote/GCLIENTE');
 var DB = require('../models/remote/index');
 
-//select
-router.post('/Select/', function(req, res, next) {
+//sincronizar remota con local
+router.post('/Sync/', function(req, res, next) {
 
   var Data = req.body;
 
@@ -24,6 +25,19 @@ router.post('/Select/', function(req, res, next) {
                   AND dbo.GCLIENTE.GLBSucursalCliente = dbo.GTERCEROS.GBLSucursalTerceros")
   .spread((Result, Metadata) => {
       res.json(Result);
+  }).catch(Err => {
+      res.json({Result: 0, Err: Err});
+  });
+
+});
+
+
+//seleccionar todos los clientes
+router.post('/Select/', function(req, res, next){
+  Cliente.findAll().then(Result => {
+    res.json(Result);
+  }).catch(Err => {
+    res.json({Result: 0, Err: Err});
   });
 });
 

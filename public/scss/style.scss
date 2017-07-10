@@ -24,3 +24,220 @@ body{
 #Data {
   height: 256px;
 }
+
+#BtnUpdate{
+  width: 128px;
+  height: 128px;
+  margin: auto;
+  display: block;
+  position: relative;
+}
+
+$material-blue-color: #0097A7;
+$material-green-color: #009688;
+$card-info-bg: $material-blue-color;
+$card-info-font-color: $body-font-color;
+$card-info-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+$card-info-info-color: lighten($primary-color, 15%);
+$card-info-border-radius: $global-radius;
+
+.card-info {
+  background: $card-info-bg;
+  border: 1px solid $dark-gray;
+  box-shadow: $card-info-shadow;
+  margin: 1rem 0;
+  overflow: hidden;
+  border-radius: $card-info-border-radius;
+  width: 256px;
+  margin: auto;
+  border-radius: 10px;
+
+  .card-info-label {
+    border-color: transparent $dark-gray transparent transparent;
+    border-color: rgba(255,255,255,0) $dark-gray rgba(255,255,255,0) rgba(255,255,255,0);
+  }
+
+  &.primary {
+    border-color: $primary-color;
+
+    .card-info-label {
+      border-color: transparent $primary-color transparent transparent;
+      border-color: rgba(255,255,255,0) $primary-color rgba(255,255,255,0) rgba(255,255,255,0);
+    }
+  }
+
+  &.secondary {
+    border-color: $secondary-color;
+
+    .card-info-label {
+      border-color: transparent $secondary-color transparent transparent;
+      border-color: rgba(255,255,255,0) $secondary-color rgba(255,255,255,0) rgba(255,255,255,0);
+    }
+  }
+
+  &.info {
+    border-color: $card-info-info-color;
+
+    .card-info-label {
+      border-color: transparent $card-info-info-color transparent transparent;
+      border-color: rgba(255,255,255,0) $card-info-info-color rgba(255,255,255,0) rgba(255,255,255,0);
+    }
+  }
+
+  &.alert {
+    border-color: $alert-color;
+
+    .card-info-label {
+      border-color: transparent $alert-color transparent transparent;
+      border-color: rgba(255,255,255,0) $alert-color rgba(255,255,255,0) rgba(255,255,255,0);
+    }
+  }
+
+  &.success {
+    border-color: $success-color;
+
+    .card-info-label {
+      border-color: transparent $success-color transparent transparent;
+      border-color: rgba(255,255,255,0) $success-color rgba(255,255,255,0) rgba(255,255,255,0);
+    }
+  }
+
+  &.warning {
+    border-color: $warning-color;
+
+    .card-info-label {
+      border-color: transparent $warning-color transparent transparent;
+      border-color: rgba(255,255,255,0) $warning-color rgba(255,255,255,0) rgba(255,255,255,0);
+    }
+  }
+
+  .card-info-label {
+    border-style: solid;
+    border-width: 0 rem-calc(70) rem-calc(40) 0;
+    float: right;
+    height: 0px;
+    width: 0px;
+    transform:rotate(360deg);
+  }
+
+  .card-info-content {
+    padding: 0.5rem 1.5rem 0.875rem;
+  }
+
+  .card-info-label-text {
+    color: $white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    position: relative;
+    right: rem-calc(-40);
+    top: 2px;
+    white-space: nowrap;
+    transform: rotate(30deg);
+  }
+
+  h1, h2, h3, p {
+    color: $white;
+  }
+
+  h1, h2, h3 {
+    font-weight: bold;
+  }
+
+  input {
+    text-align: center;
+  }
+}
+
+$reveal-margin: 25px;
+$reveal-radius: 5px;
+
+.reveal {
+
+  &.success{
+    width: 256px;
+    padding: 0;
+    border-radius: $reveal-radius;
+    outline: none;
+    border: none;
+
+    img.header {
+      margin: auto;
+      display: block;
+      margin-top: $reveal-margin;
+    }
+
+    h2.lead, p{
+      text-align: center;
+    }
+
+    h2.lead{
+      color: $material-green-color;
+      margin: 10px;
+      font-size: 150%;
+      font-weight: bold;
+    }
+
+    p {
+      color: $dark-gray;
+    }
+
+    .footer{
+      background-color: $material-green-color;
+      width: 100%;
+      margin: inherit;
+      height: 48px;
+      line-height: 48px;
+      vertical-align: middle;
+      text-align: center;
+      font-weight: bold;
+      font-size: 125%;
+      color: $white;
+      cursor: default;
+    }
+  }
+
+
+  &.failure{
+    width: 256px;
+    padding: 0;
+    border-radius: $reveal-radius;
+    outline: none;
+    border: none;
+
+    img.header {
+      margin: auto;
+      display: block;
+      margin-top: $reveal-margin;
+    }
+
+    h2.lead, p{
+      text-align: center;
+    }
+
+    h2.lead{
+      color: $alert-color;
+      margin: 10px;
+      font-size: 150%;
+      font-weight: bold;
+    }
+
+    p {
+      color: $dark-gray;
+    }
+
+    .footer{
+      background-color: $alert-color;
+      width: 100%;
+      margin: inherit;
+      height: 48px;
+      line-height: 48px;
+      vertical-align: middle;
+      text-align: center;
+      font-weight: bold;
+      font-size: 125%;
+      color: $white;
+      cursor: default;
+    }
+  }
+
+}

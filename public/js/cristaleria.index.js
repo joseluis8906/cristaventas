@@ -3,8 +3,9 @@ $(document).ready(function(){
     //$("select").change(selectPlaceholder);
 });
 
-window.onload = function()
+window.addEventListener("load", function()
 {
+
     var button = document.getElementById ("btnProbar");
     button.onclick = function ()
     {
@@ -27,7 +28,7 @@ window.onload = function()
         };
         xhttp.send (JSON.stringify (objetoJson));
     }
-}
+})
 /*
 function selectPlaceholder ()
 {

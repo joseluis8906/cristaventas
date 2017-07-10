@@ -2,10 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 var DB = require('../models/remote/index');
-var Inventario = require('../models/local/Inventario');
+var Producto = require('../models/local/Producto');
 
-//select
-router.post('/Select/', function(req, res, next) {
+//sincronizar remote y local
+router.post('/Sync/', function(req, res, next) {
 
   var Data = req.body;
 
@@ -20,7 +20,7 @@ router.post('/Select/', function(req, res, next) {
                    dbo.GIMPUESTOSYRETENCIONES.GLBLimiteInferiorImpuestosYRetenciones AS LimiteIva, \
                    dbo.GREFERENCIA.GLBDescuento1Referencia AS PromocionDelProveedor, \
                    dbo.GREFERENCIA.GLBDescuento2Referencia AS PromocionDelMes, \
-                   dbo.INQ_Pedidos_Existencias.Existencia, \
+                   dbo.INQ_Pedidos_Existencias.Existencia AS Existencia, \
                    dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaCompraReferenciaPorBodega AS FechaUltimaCompra, \
                    dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaVentaReferenciaPorBodega AS FechaUltimaVenta, \
                    SUBSTRING(dbo.GREFERENCIA.GLBComentarioReferencia, 5, 96) AS Observaciones, \
@@ -37,7 +37,21 @@ router.post('/Select/', function(req, res, next) {
             AND (SUBSTRING(dbo.GREFERENCIA.GLBNombreReferencia, 1, 2) <> 'XX')"
   ).spread((Result, Metadata) => {
       res.json(Result);
+  }).catch(Err => {
+      res.json({Result:0, Err: Err});
+  });
+
+});
+
+
+//seleccionar todos los productos
+router.post('/Select/', function(req, res, next){
+  Producto.findAll().then(Result => {
+    res.json(Result);
+  }).catch(Err => {
+    res.json({Result: 0, Err: Err});
   });
 });
+
 
 module.exports = router;
