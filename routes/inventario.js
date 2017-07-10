@@ -68,7 +68,7 @@ router.post('/Update/Sub/', function(req, res, next) {
 
   Producto.findOne ({where: {Referencia: Data.Referencia}
   }).then(Result => {
-    if(Result.Existencia <= Data.Existencia){
+    if(Result.Existencia <= Number(Data.Existencia)){
       Result.Existencia -= Number(Data.Existencia),
       Result.save();
       res.json({Result: 1});
