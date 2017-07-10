@@ -1,5 +1,9 @@
 $(document).ready(function(){
     $(document).foundation();
+
+    $("#BtnRevealSuccess").click(function(){
+      window.location.assign("/");
+    });
 });
 
 window.addEventListener("load", function(){
@@ -11,14 +15,14 @@ window.addEventListener("load", function(){
     if(Clave === "")
     {
       $("#Failure").foundation("open");
-      $("#FailureMsg").html("Escriba una clave.");
+      $("#FailureMsg").text("Escriba su clave");
       return;
     }
 
     JsonReq ("/data/Update/", {Clave: Clave}, function(Res){
         if(Res.Result===1){
             $("#Success").foundation("open");
-            $("#SuccessMsg").text("Actualización realizada correctamente.");
+            $("#SuccessMsg").text("Actualización realizada correctamente");
         }
         else {
             $("#Failure").foundation("open");
@@ -27,4 +31,5 @@ window.addEventListener("load", function(){
         $("#Clave").val("");
     });
   });
+
 });

@@ -1,0 +1,42 @@
+extends layout
+
+block content
+
+  h1(style="text-align:center;")= Acronimo
+
+  div(class="card-info warning")
+    div(class="card-info-label")
+      div(class="card-info-label-text") DCP
+    div(class="card-info-content")
+      h2(class="lead") Inventario
+      input(type="password", id="Clave", placeholder="Clave", maxlength=4, aria-describedby="passwordHelpText")
+      p(class="help-text" id="passwordHelpText") Ingrese su clave.
+      div(class="input-group")
+        input(type="text" class="input-group-field", placeholder="Referencia", id="Referencia")
+        span(class="input-group-label", style="cursor: pointer", id="BtnBuscar")
+          img(src="/images/appbar.magnify.svg", style="width: 24px")
+      div(class="callout success")
+        p(style="color:black" id="Nombre")
+      input(type="text", id="Cantidad", placeholder="Cantidad")
+
+      button(type="button", class="button", id="BtnGuardar") Guardar
+
+
+  div(data-reveal, class="reveal success", id="Success")
+    img(class="header" src="/images/gwt.gui.img.success.svg")
+    h2(class="lead") Exito!
+    p(class="lead", id="SuccessMsg") Message Default.
+    div(class="footer", data-close="Success", id="BtnRevealSuccess")
+      span Salir
+
+  div(data-reveal, class="reveal failure", id="Failure")
+    img(class="header" src="/images/gwt.gui.img.failure.svg")
+    h2(class="lead") Falló!
+    p(class="lead", id="FailureMsg") Message Default.
+    div(class="footer" data-close="Failure", id="BtnRevealFailure")
+      span Salir
+
+block scripts
+  script(src="/js/cristaleria.admin.inventario.js")
+  script(src="/js/cristaleria.jsonreq.js")
+  script(src="/js/gwt.gui.btn.update.js")

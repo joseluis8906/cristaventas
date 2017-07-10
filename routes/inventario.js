@@ -19,6 +19,7 @@ router.post('/Select/', function(req, res, next) {
 });
 
 
+/*
 //insert
 router.post('/Insert/', function(req, res, next) {
 
@@ -34,13 +35,12 @@ router.post('/Insert/', function(req, res, next) {
   });
 
 });
-
+*/
 
 //update add
 router.post('/Update/Add/', function(req, res, next) {
 
   var Data = req.body;
-  Data.Operacion = "Add";
 
   Producto.findOne ({where: {Referencia: Data.Referencia}
   }).then(Result => {
@@ -49,6 +49,10 @@ router.post('/Update/Add/', function(req, res, next) {
       res.json({Result: 1});
       if(ClienteMqtt.IsConnected())
       {
+        Data.Operacion = "Add";
+        Data.Iva = Result.Iva;
+        Data.DescuentoDelMes = Result.DescuentoDelMes;
+        Data.DescuentoDelProveedor = Result.DescuentoDelProveedor;
         ClienteMqtt.Publish(Data);
       }
   }).catch (Err => {
@@ -61,17 +65,25 @@ router.post('/Update/Add/', function(req, res, next) {
 router.post('/Update/Sub/', function(req, res, next) {
 
   var Data = req.body;
-  Data.Operacion = "Sub";
 
   Producto.findOne ({where: {Referencia: Data.Referencia}
   }).then(Result => {
+    if(Result.Existencia <= Data.Existencia){
       Result.Existencia -= Number(Data.Existencia),
       Result.save();
       res.json({Result: 1});
       if(ClienteMqtt.IsConnected())
       {
+        Data.Operacion = "Sub";
+        Data.Iva = Result.Iva;
+        Data.DescuentoDelMes = Result.DescuentoDelMes;
+        Data.DescuentoDelProveedor = Result.DescuentoDelProveedor;
         ClienteMqtt.Publish(Data);
       }
+    }
+    else {
+      res.json({Result:0, Err: "No hay existencia suficiente"});
+    }
   }).catch (Err => {
       res.json({Result:0, Err: Err});
   });

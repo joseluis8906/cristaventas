@@ -1,7 +1,16 @@
 var express = require('express');
 var router = express.Router();
+var ClienteMqtt = require('../clientemqtt');
+
+
+//models
 var Vendedor = require('../models/local/Vendedor');
 var Config1 = require('../models/local/Config1');
+var ProductoBk = require('../models/local/ProductoBk');
+var Producto = require('../models/local/Producto');
+var Cliente = require('../models/local/Cliente');
+var JsonClientes = require('../models/local/jsonclientes').JsonClientes;
+
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
@@ -10,6 +19,7 @@ router.get('/', function(req, res, next) {
 
   res.render('index', { Nombre: 'Distribuidora Cristaleria Popular', Acronimo: 'DCP'});
 });
+
 
 /*
 router.post('/Vendedores/Init/', function(req, res, next){
@@ -61,6 +71,7 @@ router.post('/login/', function (req, res, next) {
     });
 });
 
+
 //change user password
 router.post('/private/password/Change/', function (req, res, next) {
   var Data = (req.body);
@@ -87,10 +98,11 @@ router.post('/private/password/Change/', function (req, res, next) {
 });
 
 //carga la pagina para actualizar
-router.get('/admin/data/', function(req, res, next) {
+router.get('/admin/update/', function(req, res, next) {
 
-  res.render('data', { Nombre: 'Distribuidora Cristaleria Popular', Acronimo: 'DCP'});
+  res.render('update', { Nombre: 'Actualizar Base De Datos', Acronimo: 'DCP'});
 });
+
 
 //actualizacion de datos
 router.post('/data/Update/', function (req, res, next) {
@@ -98,7 +110,7 @@ router.post('/data/Update/', function (req, res, next) {
 
   Config1.findAll().then( R => {
     if (R.length === 0){
-      res.json({Result: 0, Err: "No hay registros"});
+      res.json({Result: 0, Err: "No hay clave registrada"});
     }
     else if(bcrypt.compareSync(Data.Clave, R[0].Clave)) {
       res.json({Result: 1});
@@ -112,6 +124,7 @@ router.post('/data/Update/', function (req, res, next) {
 
 });
 
+
 //cambiar la clave de actualizacion
 router.post('/private/data/Password/Change/', function (req, res, next) {
   var Data = req.body;
@@ -119,7 +132,7 @@ router.post('/private/data/Password/Change/', function (req, res, next) {
   Config1.findAll().then( R => {
     if (R.length === 0)
     {
-      res.json({Result: 0, Err: "No hay registros"});
+      res.json({Result: 0, Err: "No hay clave registrada"});
     }
     else {
       var salt = bcrypt.genSaltSync();
@@ -133,10 +146,76 @@ router.post('/private/data/Password/Change/', function (req, res, next) {
 
 });
 
+//inventario
+router.get('/admin/inventario/', function(req, res, next) {
+
+  res.render('inventario', { Nombre: 'Actualizar inventario', Acronimo: 'DCP'});
+});
+
+router.post('/inventario/Select/', function (req, res, next) {
+  var Data = req.body;
+
+  Config1.findAll().then( R => {
+    if (R.length === 0){
+      res.json({Result: 0, Err: "No hay clave registrada"});
+    }
+    else if(bcrypt.compareSync(Data.Clave, R[0].Clave)) {
+
+      Producto.findOne ({where: {Referencia: Data.Referencia}
+      }).then(Result => {
+          res.json(Result);
+      }).catch (Err => {
+          res.json({Result:0, Err: Err});
+      });
+    }
+    else{
+      res.json({Result: 0, Err: "Clave Erronea"});
+    }
+  }).catch (Err => {
+      res.json({Result:0, Err: Err});
+  });
+
+});
+
+//actualizacion de datos
+router.post('/inventario/Update/Add/', function (req, res, next) {
+  var Data = req.body;
+
+  Config1.findAll().then( R => {
+    if (R.length === 0){
+      res.json({Result: 0, Err: "No hay clave registrada"});
+    }
+    else if(bcrypt.compareSync(Data.Clave, R[0].Clave)) {
+
+      Producto.findOne ({where: {Referencia: Data.Referencia}
+      }).then(Result => {
+          Result.Existencia += Number(Data.Existencia),
+          Result.save();
+          res.json({Result: 1});
+          if(ClienteMqtt.IsConnected())
+          {
+            Data.Operacion = "Add";
+            Data.Iva = Result.Iva;
+            Data.DescuentoDelMes = Result.DescuentoDelMes;
+            Data.DescuentoDelProveedor = Result.DescuentoDelProveedor;
+            ClienteMqtt.Publish(Data);
+          }
+      }).catch (Err => {
+          res.json({Result:0, Err: Err});
+      });
+    }
+    else{
+      res.json({Result: 0, Err: "Clave Erronea"});
+    }
+  }).catch (Err => {
+      res.json({Result:0, Err: Err});
+  });
+
+});
+
 
 //sincronizar clientes
-var Cliente = require('../models/local/Cliente');
-var JsonClientes = require('../models/local/jsonclientes').JsonClientes;
+
 router.post('/sync/clientes/', function (req, res, next){
   for (var i = 0; i < JsonClientes.length; i++)
   {
@@ -161,8 +240,6 @@ router.post('/sync/clientes/', function (req, res, next){
 
 
 //sincronizar productos
-var ProductoBk = require('../models/local/ProductoBk');
-var Producto = require('../models/local/Producto');
 
 router.post('/sync/productos/', function (req, res, next){
 

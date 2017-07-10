@@ -13,7 +13,7 @@ ClienteMqtt.on('message', function (topic, message) {
 
 function Publish (Message)
 {
-   ClienteMqtt.publish('dcp/pedidos', JSON.stringify(Message), {qos: 0}, function(err){
+   ClienteMqtt.publish('dcp/pedidos', JSON.stringify(Message), {qos: 1}, function(err){
      console.log(err);
      ClienteMqtt.rec
    });
