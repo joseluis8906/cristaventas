@@ -1,3 +1,4 @@
+//basics
 var express = require('express');
 var router = express.Router();
 var ClienteMqtt = require('../clientemqtt');
@@ -6,11 +7,10 @@ var ClienteMqtt = require('../clientemqtt');
 //models
 var Vendedor = require('../models/local/Vendedor');
 var Config1 = require('../models/local/Config1');
-var ProductoBk = require('../models/local/ProductoBk');
 var Producto = require('../models/local/Producto');
 var Cliente = require('../models/local/Cliente');
-var JsonClientes = require('../models/local/jsonclientes').JsonClientes;
 
+//utilities
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
@@ -97,14 +97,15 @@ router.post('/private/password/Change/', function (req, res, next) {
 
 });
 
-//carga la pagina para actualizar
+
+//carga la pagina para sincronizar
 router.get('/admin/update/', function(req, res, next) {
 
   res.render('update', { Nombre: 'Actualizar Base De Datos', Acronimo: 'DCP'});
 });
 
 
-//actualizacion de datos
+//sincronización de bases de datos
 router.post('/data/Update/', function (req, res, next) {
   var Data = req.body;
 
@@ -125,7 +126,7 @@ router.post('/data/Update/', function (req, res, next) {
 });
 
 
-//cambiar la clave de actualizacion
+//cambiar la clave de acceso root
 router.post('/private/data/Password/Change/', function (req, res, next) {
   var Data = req.body;
 
@@ -146,6 +147,7 @@ router.post('/private/data/Password/Change/', function (req, res, next) {
 
 });
 
+/*
 //inventario
 router.get('/admin/inventario/', function(req, res, next) {
 
@@ -249,7 +251,7 @@ router.post('/sync/productos/', function (req, res, next){
 
     for (var i = 0; i < JsonProductos.length; i++)
     {
-        /*Q += "UPDATE "+
+        Q += "UPDATE "+
                 "Producto "+
              "SET "+
                 "Nombre = '" + JsonProductos[i].Nombre + "'," +
@@ -267,7 +269,7 @@ router.post('/sync/productos/', function (req, res, next){
                 "Observaciones = '" + JsonProductos[i].Observaciones + "' " +
                 //"ComentarioDetallePedido = '" + JsonProductos[i].ComentarioDetallePedido + "'," +
               "WHERE Referencia = '" + JsonProductos[i].Referencia + "'; ";
-        */
+
         Producto.update(
           {
             Nombre: JsonProductos[i].Nombre,
@@ -306,9 +308,9 @@ router.post('/sync/productos/', function (req, res, next){
   }).catch(Err => {
     req.json({Result: 0, Err: Err});
   });
-  */
+
 
 });
-
+*/
 
 module.exports = router;
