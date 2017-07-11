@@ -15,7 +15,7 @@ window.addEventListener("load", function(){
     if(Clave === "")
     {
       $("#Failure").foundation("open");
-      $("#FailureMsg").text("Escriba su clave");
+      $("#FailureMsg").text("Ingrese su clave");
       return;
     }
 
