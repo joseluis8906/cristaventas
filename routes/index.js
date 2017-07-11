@@ -2,7 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var ClienteMqtt = require('../clientemqtt');
-
+var DBRemote = require('../models/remote/index');
 
 //models
 var Vendedor = require('../models/local/Vendedor');
@@ -109,16 +109,77 @@ router.get('/admin/update/', function(req, res, next) {
 router.post('/data/Update/', function (req, res, next) {
   var Data = req.body;
 
-  Config1.findAll().then( R => {
-    if (R.length === 0){
-      res.json({Result: 0, Err: "No hay clave registrada"});
+  Config1.findAll().then( R => { // se carga la configuracion
+    if (R.length === 0){ // si no hay configuracion guardada
+      res.json({Result: 0, Err: "No hay clave registrada"}); // devuelve la respuesta de error en configuracion
     }
-    else if(bcrypt.compareSync(Data.Clave, R[0].Clave)) {
-      res.json({Result: 1});
+    else if(bcrypt.compareSync(Data.Clave, R[0].Clave)) { // comparacion de la clave root
+
+      DBRemote.query("SELECT dbo.GREFERENCIA.GLBCodigoReferencia AS Referencia, \
+                       dbo.GREFERENCIA.GLBNombreReferencia AS Nombre,  \
+                       dbo.GREFERENCIA.GLBUnidadDeEmpaqueReferencia AS UnidadDeMedida, \
+                       dbo.GREFERENCIA.GLBUnidadesPorEmpaqueReferencia AS UnidadPorEmpaque, \
+                       SUBSTRING(dbo.GREFERENCIA.GLBComentarioReferencia, 1, 3) AS ModeloContable, \
+                       dbo.GLINEAS.GLBNombreLinea AS Linea, \
+                       dbo.GPRECIOSPORREFERENCIA.GLBValorUnitarioPreciosPorReferencia AS PrecioBase, \
+                       dbo.GIMPUESTOSYRETENCIONES.GLBPorcentajeImpuestosYRetenciones AS Iva, \
+                       dbo.GIMPUESTOSYRETENCIONES.GLBLimiteInferiorImpuestosYRetenciones AS LimiteIva, \
+                       dbo.GREFERENCIA.GLBDescuento1Referencia AS PromocionDelProveedor, \
+                       dbo.GREFERENCIA.GLBDescuento2Referencia AS PromocionDelMes, \
+                       dbo.INQ_Pedidos_Existencias.Existencia AS Existencia, \
+                       dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaCompraReferenciaPorBodega AS FechaUltimaCompra, \
+                       dbo.GREFERENCIAPORBODEGA.GLBUltimaFechaVentaReferenciaPorBodega AS FechaUltimaVenta, \
+                       SUBSTRING(dbo.GREFERENCIA.GLBComentarioReferencia, 5, 96) AS Observaciones, \
+                       '' AS ComentarioDetallePedido \
+                FROM dbo.GREFERENCIA \
+                INNER JOIN dbo.GREFERENCIAPORBODEGA \
+                ON dbo.GREFERENCIA.GLBCodigoReferencia = dbo.GREFERENCIAPORBODEGA.GLBCodigoReferenciaReferenciaPorBodega \
+                INNER JOIN dbo.GIMPUESTOSYRETENCIONES \
+                ON dbo.GREFERENCIA.GLBCodigoTarifaIvaReferencia = dbo.GIMPUESTOSYRETENCIONES.GLBCodigoImpuestosYRetenciones \
+                INNER JOIN dbo.INQ_Pedidos_Existencias ON dbo.GREFERENCIA.GLBCodigoReferencia = dbo.INQ_Pedidos_Existencias.Codiigo \
+                LEFT OUTER JOIN dbo.GLINEAS ON dbo.GREFERENCIA.GLBCodigoLineaReferencia = dbo.GLINEAS.GLBCodigoLinea \
+                LEFT OUTER JOIN dbo.GPRECIOSPORREFERENCIA ON dbo.GREFERENCIA.GLBCodigoReferencia = dbo.GPRECIOSPORREFERENCIA.GLBCodigoReferenciaPreciosPorReferencia \
+                WHERE (dbo.GREFERENCIAPORBODEGA.GLBCodigoBodegaReferenciaPorBodega = '1') \
+                AND (SUBSTRING(dbo.GREFERENCIA.GLBNombreReferencia, 1, 2) <> 'XX')"
+      ).spread((Result, Metadata) => { //exito en consulta de productos
+
+        for (var i = 0; i < Result.length; i++)
+        {
+          Productos.findOne({
+            where: {Referencia: Result[i].Referencia}
+          }).then(P => {
+            P.Nombre = Result[i].Nombre;
+            P.UnidadDeMedida = Result[i].UnidadDeMedida;
+            P.UnidadPorEmpaque = Result[i].UnidadPorEmpaque;
+            P.ModeloContable = Result[i].ModeloContable;
+            P.Linea = Result[i].Linea;
+            P.PrecioBase = Result[i].PrecioBase;
+            P.Iva = Result[i].Iva;
+            P.LimiteIva = Result[i].LimiteIva;
+            P.PromocionDelProveedor = Result[i].PromocionDelProveedor;
+            P.PromocionDelMes = Result[i].PromocionDelMes;
+            P.Existencia = Result[i].Existencia;
+            P.FechaUltimaCompra = Result[i].FechaUltimaCompra;
+            P.FechaUltimaVenta = Result[i].FechaUltimaVenta;
+            P.Observaciones = Result[i].Observaciones;
+            P.ComentarioDetallePedido = Result[i].ComentarioDetallePedido;
+          }).catch(Err => {
+              res.json({Result:0, Err: "Error en actualizacion de productos"});
+          });
+        }
+
+      }).catch(Err => { // error en consulta de productos
+          res.json({Result:0, Err: Err});
+      });
+
+
+      //res.json({Result: 1});//respuesta exitosa va en la ultima consulta
     }
+    //clave erronea
     else{
       res.json({Result: 0, Err: "Clave Erronea"});
     }
+    //error en la consulta de la configuracion
   }).catch (Err => {
       res.json({Result:0, Err: Err});
   });
