@@ -7,7 +7,7 @@ $(document).ready(function(){
     });
 
     
-    $("select").change(function(){
+    $("option").change(function(){
       if (this.value == '')
       {
         $(this).addClass('placeholder');

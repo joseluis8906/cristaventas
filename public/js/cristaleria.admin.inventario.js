@@ -2,8 +2,7 @@ $(document).ready(function(){
     $(document).foundation();
 
     //cambiar los placeholder a los select
-    $("select").change(function(){
-      console.log(this.value);
+    $("option").change(function(){
       if (this.value === '')
       {
         $(this).addClass('placeholder');
