@@ -206,7 +206,7 @@ router.post('/inventario/Update/Sub/', function (req, res, next) {
 //carga la pagina para sincronizar
 router.get('/admin/sync/', function(req, res, next) {
 
-  res.render('update', { Nombre: 'Actualizar Base De Datos', Acronimo: 'DCP'});
+  res.render('sync', { Nombre: 'Actualizar Base De Datos', Acronimo: 'DCP'});
 });
 
 

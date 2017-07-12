@@ -11,6 +11,11 @@ block content
 
     div(class="card-info-content")
       h2(class="lead") Actualizar
+      select(id="Tipo")
+        option(value="") Tipo
+        option(value="Clientes") Clientes
+        option(value="Vendedores") Vendedores
+        option(value="Productos") Productos
       input(type="password", id="Clave", placeholder="Clave", maxlength=4, aria-describedby="passwordHelpText")
       p(class="help-text" id="passwordHelpText") Ingrese su clave y presione el botón verde.
       object(id="BtnUpdate", data="/images/gwt.gui.btn.update.svg", class="gwt_gui_btn_update")
@@ -33,4 +38,4 @@ block content
 block scripts
   script(src="/js/cristaleria.admin.update.js")
   script(src="/js/cristaleria.jsonreq.js")
-  script(src="/js/gwt.gui.btn.update.js")
+  script(src="/js/gwt.gui.btn.sync.js")

@@ -28,7 +28,7 @@ window.addEventListener("load", function()
         };
         xhttp.send (JSON.stringify (objetoJson));
     }
-})
+});
 /*
 function selectPlaceholder ()
 {

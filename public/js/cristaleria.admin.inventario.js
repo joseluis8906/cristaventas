@@ -1,6 +1,18 @@
 $(document).ready(function(){
     $(document).foundation();
 
+    //cambiar los placeholder a los select
+    $("select").change(function(){
+      if (this.value == '')
+      {
+        $(this).addClass('placeholder');
+      }
+      else
+      {
+        $(this).removeClass('placeholder');
+      }
+    });
+
     //boton buscar
     $("#BtnBuscar").click(function(){
       var Clave = $("#Clave").val();
@@ -86,7 +98,25 @@ $(document).ready(function(){
         return;
       }
 
-      JsonReq ("/inventario/Update/Add/", {Clave: Clave, Referencia: Referencia, Existencia: Cantidad}, function(Res){
+      var Tipo = $("#Tipo").val();
+
+      var Url = "";
+    
+      if (Tipo === "Agregar"){
+        Url = "/inventario/Update/Add/";
+      }
+      else if (Tipo === "Descontar"){
+        Url = "/inventario/Update/Sub/";
+      }
+      else{
+        $("#Failure").foundation("open");
+        $("#FailureMsg").text("Seleccione una acción");
+        $("#Clave").val("");
+        SelectSetValue("Tipo", "");
+        return;
+      }
+
+      JsonReq (Url, {Clave: Clave, Referencia: Referencia, Existencia: Cantidad}, function(Res){
 
           if(Res.Result === 0)
           {
@@ -98,7 +128,6 @@ $(document).ready(function(){
           if(Res.Result === 1){
             $("#Success").foundation("open");
             $("#SuccessMsg").text("Actualizacion Exitosa");
-
           }
       });
 
@@ -108,6 +137,7 @@ $(document).ready(function(){
       $("#Referencia").val("");
       $("#Nombre").text("");
       $("#Cantidad").val("");
+      SelectSetValue("Tipo", "");
       $("#Clave").val("");
     });
 
@@ -115,7 +145,23 @@ $(document).ready(function(){
       $("#Referencia").val("");
       $("#Nombre").text("");
       $("#Cantidad").val("");
+      SelectSetValue("Tipo", "");
       $("#Clave").val("");
     });
 
 });
+
+function SelectSetValue (Id, Value)
+{
+    $(Id+" option").each(function() { this.selected = (this.value == Value);});
+
+    var Elemento = $(Id);
+    if (Elemento.val() !== '')
+    {
+        Elemento.removeClass('placeholder');
+    }
+    else
+    {
+        Elemento.addClass('placeholder');
+    }
+}
