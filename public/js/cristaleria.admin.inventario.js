@@ -3,7 +3,8 @@ $(document).ready(function(){
 
     //cambiar los placeholder a los select
     $("select").change(function(){
-      if (this.value == '')
+      console.log(this.value);
+      if (this.value === '')
       {
         $(this).addClass('placeholder');
       }
