@@ -4,6 +4,7 @@ var router = express.Router();
 var DB = require('../models/remote/index');
 var Producto = require('../models/local/Producto');
 
+/*
 //sincronizar remote y local
 router.post('/Sync/', function(req, res, next) {
 
@@ -42,7 +43,7 @@ router.post('/Sync/', function(req, res, next) {
   });
 
 });
-
+*/
 
 //seleccionar todos los productos
 router.post('/Select/', function(req, res, next){

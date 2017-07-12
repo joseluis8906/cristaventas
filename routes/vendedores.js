@@ -4,6 +4,7 @@ var Vendedor = require('../models/local/Vendedor');
 
 var DB = require('../models/remote/index');
 
+/*
 //select
 router.post('/Sync/', function(req, res, next) {
 
@@ -29,14 +30,14 @@ router.post('/Sync/', function(req, res, next) {
             PrefijoPedido: Result[i].PrefijoPedido,
             CodigoTipoDocumento: Result[i].CodigoTipoDocumento
           });
-      }*/
+      }
       res.json(Result);
   }).catch(Err => {
       res.json({Result:0, Err: Err});
   });
 
 });
-
+*/
 
 //seleccionar todos los vendedores
 router.post('/Select/', function(req, res, next){

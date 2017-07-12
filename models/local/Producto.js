@@ -15,11 +15,9 @@ const Producto = DBLocal.define('Producto', {
     PromocionDelProveedor: Sequelize.DECIMAL,
     PromocionDelMes: Sequelize.DECIMAL,
     Existencia: Sequelize.INTEGER,
-    Vendido: Sequelize.INTEGER,
     FechaUltimaCompra: Sequelize.DATEONLY,
     FechaUltimaVenta: Sequelize.DATEONLY,
-    Observaciones: Sequelize.STRING,
-    ComentarioDetallePedido: Sequelize.STRING
+    Observaciones: Sequelize.STRING
   },
   {
     timestamps: false,

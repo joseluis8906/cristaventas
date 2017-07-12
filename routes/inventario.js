@@ -50,9 +50,6 @@ router.post('/Update/Add/', function(req, res, next) {
       if(ClienteMqtt.IsConnected())
       {
         Data.Operacion = "Add";
-        Data.Iva = Result.Iva;
-        Data.DescuentoDelMes = Result.DescuentoDelMes;
-        Data.DescuentoDelProveedor = Result.DescuentoDelProveedor;
         ClienteMqtt.Publish(Data);
       }
   }).catch (Err => {
@@ -75,9 +72,6 @@ router.post('/Update/Sub/', function(req, res, next) {
       if(ClienteMqtt.IsConnected())
       {
         Data.Operacion = "Sub";
-        Data.Iva = Result.Iva;
-        Data.DescuentoDelMes = Result.DescuentoDelMes;
-        Data.DescuentoDelProveedor = Result.DescuentoDelProveedor;
         ClienteMqtt.Publish(Data);
       }
     }
@@ -88,7 +82,6 @@ router.post('/Update/Sub/', function(req, res, next) {
       res.json({Result:0, Err: Err});
   });
 });
-
 
 
 module.exports = router;
