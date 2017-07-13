@@ -3,6 +3,7 @@ $(document).ready(function(){
 
     //cambiar los placeholder a los select
     $("select").each(function(){
+      $(this).css('text-align', 'center');
       if (this.value === '')
       {
         $(this).addClass('placeholder');
