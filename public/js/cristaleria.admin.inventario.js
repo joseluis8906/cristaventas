@@ -2,7 +2,7 @@ $(document).ready(function(){
     $(document).foundation();
 
     //cambiar los placeholder a los select
-    $("select").each(function(){
+    $("select").change(function(){
       $(this).css('text-align', 'center');
       if (this.value === '')
       {
