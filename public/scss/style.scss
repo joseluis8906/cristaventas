@@ -13,9 +13,15 @@ body{
   font: 14px $font-stack;
 }
 
-option[value=""] {
+select{
+  text-align: center;
+}
+
+option[value=""], select[value=""] {
   color: #cacaca;
 }
+
+
 
 #tablero {
   display: none;
