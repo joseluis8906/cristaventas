@@ -1,9 +1,8 @@
 extends layout
 
 block content
-
-  h1(style="text-align:center;")= Acronimo
-  p(style="text-align:center") #{Nombre}
+  img(src="/images/logoCristaleria.svg" style="width: 64px; display: block; margin: auto;")
+  h1(style="text-align:center; color: white;") DCP
 
   div(class="card-info warning")
     div(class="card-info-label")
@@ -11,14 +10,15 @@ block content
 
     div(class="card-info-content")
       h2(class="lead") Actualizar
-      input(type="password", id="Clave", placeholder="Clave", maxlength=4, aria-describedby="passwordHelpText")
+      input(type="password", id="Clave", placeholder="Clave", maxlength=4)
       select(id="Tipo", value="")
         option(value="") Tipo
         option(value="Clientes") Clientes
         option(value="Vendedores") Vendedores
         option(value="Productos") Productos
-      p(class="help-text" id="passwordHelpText") Ingrese su clave y presione el botón verde.
       object(id="BtnUpdate", data="/images/gwt.gui.btn.update.svg", class="gwt_gui_btn_update")
+      a(class="button warning rounded r1", href="/", style="float: right")
+        img(src="/images/appbar.home.svg" style="width: 16px;")
 
 
   div(data-reveal, class="reveal success", id="Success")
@@ -34,6 +34,11 @@ block content
     p(class="lead", id="FailureMsg") Message Default.
     div(class="footer" data-close="Failure")
       span Salir
+
+  div(data-reveal, class="reveal success", id="Loading")
+    img(class="header" src="/images/loading.gif" style="display: block; margin: auto")
+    p(style="margin-bottom: 12px") Por favor espere...
+
 
 block scripts
   script(src="/js/cristaleria.admin.sync.js")

@@ -2,11 +2,6 @@ $(document).ready(function(){
 
     $(document).foundation();
 
-    $("#BtnRevealSuccess").click(function(){
-      window.location.assign("/");
-    });
-
-
     $("select").change(function(){
       if (this.value == '')
       {
@@ -30,6 +25,16 @@ $(document).ready(function(){
     });
 
 
+    $("#BtnRevealSuccess").click(function(){
+      $("#Clave").val("");
+      SelectSetValue("#Tipo", "");
+    });
+
+    $("#BtnRevealFailure").click(function(){
+      $("#Clave").val("");
+      SelectSetValue("#Tipo", "");
+    });
+
 });
 
 window.addEventListener("load", function(){
@@ -41,6 +46,8 @@ window.addEventListener("load", function(){
     if(Clave === ""){
       $("#Failure").foundation("open");
       $("#FailureMsg").text("Ingrese su clave");
+      $("#Clave").val("");
+      SelectSetValue ("#Tipo", "");
       return;
     }
 
@@ -61,21 +68,33 @@ window.addEventListener("load", function(){
       $("#Failure").foundation("open");
       $("#FailureMsg").text("Seleccione una acción");
       $("#Clave").val("");
-      SelectSetValue("Tipo", "");
+      SelectSetValue("#Tipo", "");
       return;
     }
 
+    $("#Loading").foundation("open");
+
     JsonReq (Url, {Clave: Clave}, function(Res){
         if(Res.Result===1){
+            $("#Loading").foundation("close");
             $("#Success").foundation("open");
             $("#SuccessMsg").text("Sincronización exitosa");
         }
         else {
+            $("#Loading").foundation("close");
             $("#Failure").foundation("open");
             $("#FailureMsg").text(Res.Err);
         }
         $("#Clave").val("");
+        SelectSetValue("#Tipo", "");
+    },
+
+    function(Err){
+      $("#Loading").foundation("close");
+      $("#Failure").foundation("open");
+      $("#FailureMsg").text("A ocurrido un error inesperado");
     });
+
   });
 
 });

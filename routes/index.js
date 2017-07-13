@@ -18,7 +18,7 @@ var jwt = require('jsonwebtoken');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-  res.render('index', { Nombre: 'Distribuidora Cristaleria Popular', Acronimo: 'DCP'});
+  res.render('index', {});
 });
 
 
@@ -50,6 +50,7 @@ router.post('/login/', function (req, res, next) {
         res.json({Result: 0});
       }
     }).catch (Err => {
+        console.log(Err);
         res.json({Result:0, Err: Err});
     });
 });
@@ -75,6 +76,7 @@ router.post('/private/password/Change/', function (req, res, next) {
     res.json({Result: 0, Err: "Clave actual erronea"});
 
   }).catch (Err => {
+      console.log(Err);
       res.json({Result:0, Err: Err});
   });
 
@@ -97,6 +99,7 @@ router.post('/private/root/Password/Change/', function (req, res, next) {
       res.json({Result: 1});
     }
   }).catch (Err => {
+      console.log(Err);
       res.json({Result:0, Err: Err});
   });
 
@@ -123,6 +126,7 @@ router.post('/inventario/Select/', function (req, res, next) {
       }).then(Result => {
           res.json(Result);
       }).catch (Err => {
+          console.log(Err);
           res.json({Result:0, Err: Err});
       });
     }
@@ -130,6 +134,7 @@ router.post('/inventario/Select/', function (req, res, next) {
       res.json({Result: 0, Err: "Clave Erronea"});
     }
   }).catch (Err => {
+      console.log(Err);
       res.json({Result:0, Err: Err});
   });
 
@@ -156,6 +161,7 @@ router.post('/inventario/Update/Add/', function (req, res, next) {
             ClienteMqtt.Publish(Data);
           }
       }).catch (Err => {
+          console.log(Err);
           res.json({Result:0, Err: Err});
       });
     }
@@ -163,6 +169,7 @@ router.post('/inventario/Update/Add/', function (req, res, next) {
       res.json({Result: 0, Err: "Clave Erronea"});
     }
   }).catch (Err => {
+      console.log(Err);
       res.json({Result:0, Err: Err});
   });
 
@@ -190,6 +197,7 @@ router.post('/inventario/Update/Sub/', function (req, res, next) {
             ClienteMqtt.Publish(Data);
           }
       }).catch (Err => {
+          console.log(Err);
           res.json({Result:0, Err: Err});
       });
     }
@@ -197,6 +205,7 @@ router.post('/inventario/Update/Sub/', function (req, res, next) {
       res.json({Result: 0, Err: "Clave Erronea"});
     }
   }).catch (Err => {
+      console.log(Err);
       res.json({Result:0, Err: Err});
   });
 
@@ -242,8 +251,8 @@ router.post('/clientes/sync/', function (req, res, next){
         dbo.GCLIENTE.GLBSucursalCliente = dbo.GTERCEROS.GBLSucursalTerceros"
 
     ).spread((Result, Metadata) => {
-      for (var i = 0; i < Result.length; i++){ 
-        
+      for (var i = 0; i < Result.length; i++){
+
         Cliente.update({
           Sucursal: Result[i].Sucursal,
           Codigo: Result[i].Codigo,
@@ -257,9 +266,9 @@ router.post('/clientes/sync/', function (req, res, next){
         {
           where: {Nit: Result[i].Nit}
         }).then( R => {
-          
+
           if (R === null){
-          
+
             Cliente.create({
               Nit: Result[i].Nit,
               Sucursal: Result[i].Sucursal,
@@ -270,28 +279,42 @@ router.post('/clientes/sync/', function (req, res, next){
               Telefono2: Result[i].Telefono2,
               Descuento: Result[i].Descuento,
               Plazo: Result[i].Plazo
-           
+
             }).then(()=>{
 
+              if(i === Result.length)
+              {
+                res.json({Result: 1});
+              }
+
             }).catch(Err => {
-              req.json({Result: 0, Err: "Error en sincronización de cliente, creando"});
+              console.log(Err);
+              res.json({Result: 0, Err: "Error en sincronización de cliente, creando"});
             });
-          
+
           }
-        
+
+          if(i === Result.length)
+          {
+            res.json({Result: 1});
+          }
+
         }).catch(Err => {
-          req.json({Result: 0, Err: "Error en sincronización de cliente, actualizando"});
-        });     
+          console.log(Err);
+          res.json({Result: 0, Err: "Error en sincronización de cliente, actualizando"});
+        });
       }
     }).catch(Err => {
+        console.log(Err);
         res.json({Result: 0, Err: "Error en sincronización de clientes, consultando"});
     });
-  
+
     }else{ //clave erronea
       res.json({Result: 0, Err: "Clave Erronea"});
     }
-    
+
   }).catch (Err => {//error en la consulta de la configuracion
+      console.log(Err);
       res.json({Result:0, Err: Err});
   });
 
@@ -321,25 +344,24 @@ router.post('/vendedores/sync/', function (req, res, next){
         dbo.GVENDEDOR.GLBIdentificadorUnoVendedor = dbo.GTERCEROS.GBLIdentificadorUnoTerceros \
       AND \
         dbo.GVENDEDOR.GLBSucursalVendedor = dbo.GTERCEROS.GBLSucursalTerceros"
-        
+
     ).spread((Result, Metadata) => {
-      
-      for (var i = 0; i < Result.length; i++){ 
-        
+
+      for (var i = 0; i < Result.length; i++){
+
         Vendedor.update({
           Sucursal: Result[i].Sucursal,
           Codigo: Result[i].Codigo,
           Nombre: Result[i].Nombre,
           PrefijoPedido: Result[i].PrefijoPedido,
           CodigoTipoDocumento: Result[i].CodigoTipoDocumento
-
         },
         {
-          where: {Nit: Result[i].Nit}
+          where: {Cedula: Result[i].Cedula}
         }).then( R => {
-          
+          console.log(R);
           if (R === null){
-            
+
             var salt = bcrypt.genSaltSync();
 
             var Clave = bcrypt.hashSync(Result[i].Codigo.substr(-4,4), salt);
@@ -352,27 +374,41 @@ router.post('/vendedores/sync/', function (req, res, next){
               PrefijoPedido: Result[i].PrefijoPedido,
               CodigoTipoDocumento: Result[i].CodigoTipoDocumento,
               Clave: Clave
-            }).then(()=>{
+            }).then(() => {
+
+              if(i === Result.length)
+              {
+                res.json({Result: 1});
+              }
 
             }).catch(Err => {
-              req.json({Result: 0, Err: "Error en sincronización de vendedor, creando"});
+              console.log(Err);
+              res.json({Result: 0, Err: "Error en sincronización de vendedor, creando"});
             });
-          
+
           }
-        
+
+          if(i === Result.length)
+          {
+            res.json({Result: 1});
+          }
+
         }).catch(Err => {
-          req.json({Result: 0, Err: "Error en sincronización de vendedor, actualizando"});
-        });     
+          console.log(Err);
+          res.json({Result: 0, Err: "Error en sincronización de vendedor, actualizando"});
+        });
       }
     }).catch(Err => {
+        console.log(Err);
         res.json({Result: 0, Err: "Error en sincronización de vendedor, consultando"});
     });
-  
+
     }else{ //clave erronea
       res.json({Result: 0, Err: "Clave Erronea"});
     }
-    
+
   }).catch (Err => {//error en la consulta de la configuracion
+      console.log(Err);
       res.json({Result:0, Err: Err});
   });
 
@@ -432,7 +468,7 @@ router.post('/productos/Sync/', function (req, res, next) {
 
         for (var i = 0; i < Result.length; i++)
         {
-          Productos.update({
+          Producto.update({
             Nombre: Result[i].Nombre,
             UnidadDeMedida: Result[i].UnidadDeMedida,
             UnidadPorEmpaque: Result[i].UnidadPorEmpaque,
@@ -451,9 +487,9 @@ router.post('/productos/Sync/', function (req, res, next) {
           {
             where: {Referencia: Result[i].Referencia}
           }).then(R => {
-            
+
             if(R === null){
-              Productos.Create({
+              Producto.Create({
                 Nombre: Result[i].Nombre,
                 UnidadDeMedida: Result[i].UnidadDeMedida,
                 UnidadPorEmpaque: Result[i].UnidadPorEmpaque,
@@ -471,17 +507,30 @@ router.post('/productos/Sync/', function (req, res, next) {
                 ComentarioDetallePedido: Result[i].ComentarioDetallePedido,
               }).then(() => {
 
+                if(i === Result.length)
+                {
+                  res.json({Result: 1});
+                }
+
               }).catch(Err => {
+                console.log(Err);
                 res.json({Result:0, Err: "Error en sincronización de producto, creando"});
               });
             }
-            
+
+            if(i === Result.length)
+            {
+              res.json({Result: 1});
+            }
+
           }).catch(Err => {
+              console.log(Err);
               res.json({Result:0, Err: "Error en sincronización de producto, actualizando"});
           });
         }
 
       }).catch(Err => { // error en consulta de productos
+          console.log(Err);
           res.json({Result:0, Err: "Error en sincronización de productos, consultando"});
       });
     }
@@ -491,6 +540,7 @@ router.post('/productos/Sync/', function (req, res, next) {
     }
     //error en la consulta de la configuracion
   }).catch (Err => {
+      console.log(Err);
       res.json({Result:0, Err: Err});
   });
 

@@ -2,7 +2,8 @@ extends layout
 
 block content
 
-  h1(style="text-align:center;")= Acronimo
+  img(src="/images/logoCristaleria.svg" style="width: 64px; display: block; margin: auto;")
+  h1(style="text-align:center; color: white;") DCP
 
   div(class="card-info warning")
     div(class="card-info-label")
@@ -23,8 +24,9 @@ block content
         option(value="Agregar") Agregar
         option(value="Descontar") Descontar
 
-      button(type="button", class="button", id="BtnGuardar") Guardar
-
+      button(type="button", class="button", id="BtnGuardar") Enviar
+      a(class="button warning rounded r1", href="/", style="float: right")
+        img(src="/images/appbar.home.svg" style="width: 16px;")
 
   div(data-reveal, class="reveal success", id="Success")
     img(class="header" src="/images/gwt.gui.img.success.svg")
@@ -39,6 +41,10 @@ block content
     p(class="lead", id="FailureMsg") Message Default.
     div(class="footer" data-close="Failure", id="BtnRevealFailure")
       span Salir
+
+  div(data-reveal, class="reveal success", id="Loading")
+    img(class="header" src="/images/loading.gif" style="display: block; margin: auto")
+    p(style="margin-bottom: 12px") Por favor espere...
 
 block scripts
   script(src="/js/cristaleria.admin.inventario.js")

@@ -5254,7 +5254,8 @@ a.thumbnail {
 
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #455A64; }
 
 select {
   text-align-last: center; }
@@ -5415,3 +5416,16 @@ select:not([value=""]) {
     font-size: 125%;
     color: #fefefe;
     cursor: default; }
+
+.button.material-green {
+  color: #fefefe;
+  background-color: #00BFA5; }
+
+.rounded.r1 {
+  border-radius: 3px; }
+
+.rounded.r2 {
+  border-radius: 6px; }
+
+.rounded.r3 {
+  border-radius: 12px; }

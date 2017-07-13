@@ -11,6 +11,7 @@ $font-stack: "Lucida Grande", Helvetica, Arial, sans-serif;
 body{
   padding: 50px;
   font: 14px $font-stack;
+  background-color: #455A64;
 }
 
 select{
@@ -255,5 +256,25 @@ $reveal-radius: 5px;
       cursor: default;
     }
   }
+}
 
+.button{
+  &.material-green {
+    color: $white;
+    background-color: #00BFA5;
+  }
+}
+
+.rounded {
+  &.r1 {
+    border-radius: 3px;
+  }
+
+  &.r2 {
+    border-radius: 6px;
+  }
+
+  &.r3 {
+    border-radius: 12px;
+  }
 }

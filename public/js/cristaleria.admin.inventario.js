@@ -46,8 +46,11 @@ $(document).ready(function(){
         return;
       }
 
+      $("#Loading").foundation("open");
+
       JsonReq ("/inventario/Select/", {Clave: Clave, Referencia: Referencia}, function(Res){
           if(Res === null){
+            $("#Loading").foundation("close");
             $("#Failure").foundation("open");
             $("#FailureMsg").text("El producto no existe");
             $("#Nombre").text("Nombre");
@@ -57,15 +60,23 @@ $(document).ready(function(){
 
           if(Res.Result === 0)
           {
+            $("#Loading").foundation("close");
             $("#Failure").foundation("open");
             $("#FailureMsg").text(Res.Err);
             return;
           }
 
           if(Res.Referencia === Referencia){
+            $("#Loading").foundation("close");
             $("#Nombre").text(Res.Nombre);
             $("#Nombre").css("color", "black");
           }
+      },
+
+      function(Err){
+        $("#Loading").foundation("close");
+        $("#Failure").foundation("open");
+        $("#FailureMsg").text("A ocurrido un error inesperado");
       });
 
     });
@@ -81,6 +92,7 @@ $(document).ready(function(){
 
       if(Clave === "")
       {
+        $("#Loading").foundation("close");
         $("#Failure").foundation("open");
         $("#FailureMsg").text("Escriba su clave");
         return;
@@ -88,6 +100,7 @@ $(document).ready(function(){
 
       if(Referencia === "")
       {
+        $("#Loading").foundation("close");
         $("#Failure").foundation("open");
         $("#FailureMsg").text("Escriba una referencia y consulte con el boton lupa");
         return;
@@ -95,6 +108,7 @@ $(document).ready(function(){
 
       if(Nombre === "")
       {
+        $("#Loading").foundation("close");
         $("#Failure").foundation("open");
         $("#FailureMsg").text("Consulte la referencia para verificar existencia");
         return;
@@ -102,6 +116,7 @@ $(document).ready(function(){
 
       if(Cantidad === "")
       {
+        $("#Loading").foundation("close");
         $("#Failure").foundation("open");
         $("#FailureMsg").text("Escriba una cantidad");
         return;
@@ -109,6 +124,7 @@ $(document).ready(function(){
 
       if(Number(Cantidad) === NaN)
       {
+        $("#Loading").foundation("close");
         $("#Failure").foundation("open");
         $("#FailureMsg").text("Escriba una cantidad válida");
         return;
@@ -134,15 +150,23 @@ $(document).ready(function(){
 
           if(Res.Result === 0)
           {
+            $("#Loading").foundation("close");
             $("#Failure").foundation("open");
             $("#FailureMsg").text(Res.Err);
             return;
           }
 
           if(Res.Result === 1){
+            $("#Loading").foundation("close");
             $("#Success").foundation("open");
             $("#SuccessMsg").text("Actualizacion Exitosa");
           }
+      },
+
+      function(Err){
+        $("#Loading").foundation("close");
+        $("#Failure").foundation("open");
+        $("#FailureMsg").text("A ocurrido un error inesperado");
       });
 
     });
