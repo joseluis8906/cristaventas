@@ -2,16 +2,15 @@ $(document).ready(function(){
     $(document).foundation();
 
     //cambiar los placeholder a los select
-    $("option").each(function(){
+    $("select").each(function(){
       if (this.value === '')
       {
         $(this).addClass('placeholder');
-        $(this).css('text-align', 'center');
       }
-      /*else
+      else
       {
         $(this).removeClass('placeholder');
-      }*/
+      }
     });
 
     //boton buscar
