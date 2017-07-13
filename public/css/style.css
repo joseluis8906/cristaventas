@@ -5256,8 +5256,20 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
-.placeholder {
+select {
+  text-align-last: center; }
+
+option[value=""], .placeholder {
   color: #cacaca; }
+
+option:not([value=""]) {
+  color: black; }
+
+select:not([value=""]) {
+  color: black; }
+
+#Nombre {
+  text-align: center; }
 
 #tablero {
   display: none; }

@@ -14,14 +14,24 @@ body{
 }
 
 select{
-  text-align: center;
+  text-align-last: center;
 }
 
-option[value=""], select[value=""] {
+option[value=""], .placeholder{
   color: #cacaca;
 }
 
+option:not([value=""]) {
+  color: black;
+}
 
+select:not([value=""]){
+  color: black;
+}
+
+#Nombre {
+  text-align: center;
+}
 
 #tablero {
   display: none;

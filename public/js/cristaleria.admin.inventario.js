@@ -3,7 +3,6 @@ $(document).ready(function(){
 
     //cambiar los placeholder a los select
     $("select").change(function(){
-      $(this).css('text-align', 'center');
       if (this.value === '')
       {
         $(this).addClass('placeholder');
@@ -13,6 +12,19 @@ $(document).ready(function(){
         $(this).removeClass('placeholder');
       }
     });
+
+    $("select").each(function(){
+      if (this.value === '')
+      {
+        $(this).addClass('placeholder');
+      }
+      else
+      {
+        $(this).removeClass('placeholder');
+      }
+    });
+
+    $("#Nombre").css("color", "#cacaca");
 
     //boton buscar
     $("#BtnBuscar").click(function(){
@@ -38,7 +50,8 @@ $(document).ready(function(){
           if(Res === null){
             $("#Failure").foundation("open");
             $("#FailureMsg").text("El producto no existe");
-            $("#Nombre").text("");
+            $("#Nombre").text("Nombre");
+            $("#Nombre").css("color", "#cacaca");
             return;
           }
 
@@ -51,6 +64,7 @@ $(document).ready(function(){
 
           if(Res.Referencia === Referencia){
             $("#Nombre").text(Res.Nombre);
+            $("#Nombre").css("color", "black");
           }
       });
 
@@ -63,6 +77,7 @@ $(document).ready(function(){
       var Referencia = $("#Referencia").val();
       var Nombre = $("#Nombre").text();
       var Cantidad = $("#Cantidad").val();
+      var Tipo = $("#Tipo").val();
 
       if(Clave === "")
       {
@@ -99,10 +114,8 @@ $(document).ready(function(){
         return;
       }
 
-      var Tipo = $("#Tipo").val();
-
       var Url = "";
-    
+
       if (Tipo === "Agregar"){
         Url = "/inventario/Update/Add/";
       }
@@ -113,7 +126,7 @@ $(document).ready(function(){
         $("#Failure").foundation("open");
         $("#FailureMsg").text("Seleccione una acción");
         $("#Clave").val("");
-        SelectSetValue("Tipo", "");
+        SelectSetValue("#Tipo", "");
         return;
       }
 
@@ -138,16 +151,20 @@ $(document).ready(function(){
       $("#Referencia").val("");
       $("#Nombre").text("");
       $("#Cantidad").val("");
-      SelectSetValue("Tipo", "");
+      SelectSetValue("#Tipo", "");
       $("#Clave").val("");
+      $("#Nombre").text("Nombre");
+      $("#Nombre").css("color", "#cacaca");
     });
 
     $("#BtnRevealFailure").click(function(){
       $("#Referencia").val("");
       $("#Nombre").text("");
       $("#Cantidad").val("");
-      SelectSetValue("Tipo", "");
+      SelectSetValue("#Tipo", "");
       $("#Clave").val("");
+      $("#Nombre").text("Nombre");
+      $("#Nombre").css("color", "#cacaca");
     });
 
 });

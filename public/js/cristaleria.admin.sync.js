@@ -1,14 +1,25 @@
 $(document).ready(function(){
-    
+
     $(document).foundation();
 
     $("#BtnRevealSuccess").click(function(){
       window.location.assign("/");
     });
 
-    
-    $("option").change(function(){
+
+    $("select").change(function(){
       if (this.value == '')
+      {
+        $(this).addClass('placeholder');
+      }
+      else
+      {
+        $(this).removeClass('placeholder');
+      }
+    });
+
+    $("select").each(function(){
+      if (this.value === '')
       {
         $(this).addClass('placeholder');
       }
@@ -36,7 +47,7 @@ window.addEventListener("load", function(){
     var Tipo = $("#Tipo").val();
 
     var Url = "";
-    
+
     if (Tipo === "Clientes"){
       Url = "/clientes/sync/";
     }
