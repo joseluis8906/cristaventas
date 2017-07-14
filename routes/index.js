@@ -10,15 +10,15 @@ var Config1 = require('../models/local/Config1');
 var Producto = require('../models/local/Producto');
 var Cliente = require('../models/local/Cliente');
 
-//var RProducto = require('../models/remote/Producto');
-//var RCliente = require('../models/remote/Cliente');
+var RProducto = require('../models/remote/Producto');
+var RCliente = require('../models/remote/Cliente');
 var RVendedor = require('../models/remote/Vendedor');
 
 //utilities
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
-/*
+
 router.post('/install/', function (req, res, next) {
   var Data = req.body;
 
@@ -34,9 +34,9 @@ router.post('/install/', function (req, res, next) {
   });
 
 });
-*/
 
-/*
+
+
 router.post('/sync/productos/', function (req, res, next) {
   RProducto.findAll().then(R => {
     for (var i = 0; i < R.length; i++){      
@@ -68,9 +68,9 @@ router.post('/sync/productos/', function (req, res, next) {
     res.json({Result: 0, Err: Err});
   });
 });
-*/
 
-/*
+
+
 router.post('/sync/clientes/', function (req, res, next) {
   RCliente.findAll().then(R => {
     for (var i = 0; i < R.length; i++){      
@@ -92,7 +92,7 @@ router.post('/sync/clientes/', function (req, res, next) {
     res.json({Result: 0, Err: Err});
   });
 });
-*/
+
 
 router.post('/sync/vendedores/', function (req, res, next) {
   RVendedor.findAll().then(R => {
