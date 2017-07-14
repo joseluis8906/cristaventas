@@ -10,15 +10,17 @@ var Config1 = require('../models/local/Config1');
 var Producto = require('../models/local/Producto');
 var Cliente = require('../models/local/Cliente');
 
+/*
 var RProducto = require('../models/remote/Producto');
 var RCliente = require('../models/remote/Cliente');
 var RVendedor = require('../models/remote/Vendedor');
+*/
 
 //utilities
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
-
+/*
 router.post('/install/', function (req, res, next) {
   var Data = req.body;
 
@@ -119,7 +121,7 @@ router.post('/sync/vendedores/', function (req, res, next) {
     res.json({Result: 0, Err: Err});
   });
 });
-
+*/
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
