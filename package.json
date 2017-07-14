@@ -17,10 +17,11 @@
     "motion-ui": "^1.2.3",
     "mqtt": "^2.9.1",
     "node-sass-middleware": "^0.11.0",
+    "pg": "^6.4.0",
+    "pg-hstore": "^2.3.2",
     "pug": "~2.0.0-beta11",
     "sequelize": "^4.2.0",
     "serve-favicon": "~2.4.2",
-    "sqlite3": "^3.1.8",
     "tedious": "^2.0.0"
   }
 }

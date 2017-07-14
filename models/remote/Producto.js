@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var DBLocal = require('./index');
+var DBRemote = require('./index');
 
-const Producto = DBLocal.define('Producto', {
+const Producto = DBRemote.define('Producto', {
     Id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
     Referencia: {type: Sequelize.STRING, unique: true},
     Nombre: Sequelize.STRING,

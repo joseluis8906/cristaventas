@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 
-const DBLocal = new Sequelize('sqlite://models/local/cristaleria.sqlite');
+const DBLocal = new Sequelize('postgres://unixjs:K3J9 8LMN 02F3 B3LW@127.0.0.1:5432/dcp');
 
 DBLocal.authenticate()
 .then(() => {

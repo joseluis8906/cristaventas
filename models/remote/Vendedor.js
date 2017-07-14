@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var DBLocal = require('./index');
+var DBRemote = require('./index');
 
-const Vendedor = DBLocal.define('Vendedor', {
+const Vendedor = DBRemote.define('Vendedor', {
     Id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
     Cedula: {type: Sequelize.STRING, unique: true},
     Sucursal: Sequelize.STRING,

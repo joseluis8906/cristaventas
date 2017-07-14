@@ -10,14 +10,119 @@ var Config1 = require('../models/local/Config1');
 var Producto = require('../models/local/Producto');
 var Cliente = require('../models/local/Cliente');
 
+//var RProducto = require('../models/remote/Producto');
+//var RCliente = require('../models/remote/Cliente');
+var RVendedor = require('../models/remote/Vendedor');
+
 //utilities
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
+/*
+router.post('/install/', function (req, res, next) {
+  var Data = req.body;
+
+  var salt = bcrypt.genSaltSync();
+  var Clave = bcrypt.hashSync(Data.Clave, salt);
+
+  Config1.create({
+    Clave: Clave
+  }).then(() => {
+    res.json ({Result: 1});
+  }).catch (Err => {
+    res.json ({Result: 0, Err: Err});
+  });
+
+});
+*/
+
+/*
+router.post('/sync/productos/', function (req, res, next) {
+  RProducto.findAll().then(R => {
+    for (var i = 0; i < R.length; i++){      
+      //console.log("{0}: compra: {1}, venta: {2}".replace("{0}", R[i].Referencia).replace("{1}", R[i].FechaUltimaCompra).replace("{2}", R[i].FechaUltimaVenta));
+      //console.log(R[i].FechaUltimaCompra === "Invalid date");
+      var FechaUltimaCompra = (R[i].FechaUltimaCompra === "Invalid date") ? null : R[i].FechaUltimaCompra;
+      var FechaUltimaVenta = (R[i].FechaUltimaVenta === "Invalid date") ? null : R[i].FechaUltimaVenta;
+
+      Producto.upsert({
+        Referencia: R[i].Referencia,
+        Nombre: R[i].Nombre,
+        UnidadDeMedida: R[i].UnidadDeMedida,
+        UnidadPorEmpaque: R[i].UnidadPorEmpaque,
+        ModeloContable: R[i].ModeloContable,
+        Linea: R[i].Linea,
+        PrecioBase: R[i].PrecioBase,
+        Iva: R[i].Iva,
+        LimiteIva: R[i].LimiteIva,
+        PromocionDelProveedor: R[i].PromocionDelMes,
+        PromocionDelMes: R[i].PromocionDelMes,
+        Existencia: R[i].Existencia,
+        FechaUltimaCompra: FechaUltimaCompra,
+        FechaUltimaVenta: FechaUltimaVenta,
+        Observaciones: R[i].Observaciones
+      });
+    }
+    res.json({Result: 1});
+  }).catch(Err => {
+    res.json({Result: 0, Err: Err});
+  });
+});
+*/
+
+/*
+router.post('/sync/clientes/', function (req, res, next) {
+  RCliente.findAll().then(R => {
+    for (var i = 0; i < R.length; i++){      
+
+      Cliente.upsert({
+        Nit: R[i].Nit,
+        Sucursal: R[i].Sucursal,
+        Codigo: R[i].Codigo,
+        Nombre: R[i].Nombre,
+        Direccion: R[i].Direccion,
+        Telefono1: R[i].Telefono1,
+        Telefono2: R[i].Telefono2,
+        Descuento: R[i].Descuento,
+        Plazo: R[i].Plazo
+      });
+    }
+    res.json({Result: 1});
+  }).catch(Err => {
+    res.json({Result: 0, Err: Err});
+  });
+});
+*/
+
+router.post('/sync/vendedores/', function (req, res, next) {
+  RVendedor.findAll().then(R => {
+    
+    var salt = bcrypt.genSaltSync();
+    
+    for (var i = 0; i < R.length; i++){      
+
+      var Clave = bcrypt.hashSync(R[i].Cedula.substr(-4,4), salt);
+
+      Vendedor.upsert({
+          Cedula: R[i].Cedula,
+          Sucursal: R[i].Sucursal,
+          Codigo: R[i].Codigo,
+          Nombre: R[i].Nombre,
+          PrefijoPedido: R[i].PrefijoPedido,
+          CodigoTipoDocumento: R[i].CodigoTipoDocumento,
+          Clave: Clave
+        });
+    }
+    res.json({Result: 1});
+
+  }).catch(Err => {
+    res.json({Result: 0, Err: Err});
+  });
+});
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-
   res.render('index', {});
 });
 
@@ -84,7 +189,7 @@ router.post('/private/password/Change/', function (req, res, next) {
 
 
 //cambiar la clave de acceso root
-router.post('/private/root/Password/Change/', function (req, res, next) {
+router.post('/root/Password/Change/', function (req, res, next) {
   var Data = req.body;
 
   Config1.findAll().then( R => {
@@ -253,7 +358,8 @@ router.post('/clientes/sync/', function (req, res, next){
     ).spread((Result, Metadata) => {
       for (var i = 0; i < Result.length; i++){
 
-        Cliente.update({
+        Cliente.upsert({
+          Nit: Result[i].Nit,
           Sucursal: Result[i].Sucursal,
           Codigo: Result[i].Codigo,
           Nombre: Result[i].Nombre,
@@ -262,48 +368,11 @@ router.post('/clientes/sync/', function (req, res, next){
           Telefono2: Result[i].Telefono2,
           Descuento: Result[i].Descuento,
           Plazo: Result[i].Plazo
-        },
-        {
-          where: {Nit: Result[i].Nit}
-        }).then( R => {
-
-          if (R === null){
-
-            Cliente.create({
-              Nit: Result[i].Nit,
-              Sucursal: Result[i].Sucursal,
-              Codigo: Result[i].Codigo,
-              Nombre: Result[i].Nombre,
-              Direccion: Result[i].Direccion,
-              Telefono1: Result[i].Telefono1,
-              Telefono2: Result[i].Telefono2,
-              Descuento: Result[i].Descuento,
-              Plazo: Result[i].Plazo
-
-            }).then(()=>{
-
-              if(i === Result.length)
-              {
-                res.json({Result: 1});
-              }
-
-            }).catch(Err => {
-              console.log(Err);
-              res.json({Result: 0, Err: "Error en sincronización de cliente, creando"});
-            });
-
-          }
-
-          if(i === Result.length)
-          {
-            res.json({Result: 1});
-          }
-
-        }).catch(Err => {
-          console.log(Err);
-          res.json({Result: 0, Err: "Error en sincronización de cliente, actualizando"});
         });
       }
+
+      res.json({Result: 1});
+
     }).catch(Err => {
         console.log(Err);
         res.json({Result: 0, Err: "Error en sincronización de clientes, consultando"});
@@ -349,55 +418,19 @@ router.post('/vendedores/sync/', function (req, res, next){
 
       for (var i = 0; i < Result.length; i++){
 
-        Vendedor.update({
+        Vendedor.upsert({
+          Cedula: Result[i].Cedula,
           Sucursal: Result[i].Sucursal,
           Codigo: Result[i].Codigo,
           Nombre: Result[i].Nombre,
           PrefijoPedido: Result[i].PrefijoPedido,
           CodigoTipoDocumento: Result[i].CodigoTipoDocumento
-        },
-        {
-          where: {Cedula: Result[i].Cedula}
-        }).then( R => {
-          console.log(R);
-          if (R === null){
-
-            var salt = bcrypt.genSaltSync();
-
-            var Clave = bcrypt.hashSync(Result[i].Codigo.substr(-4,4), salt);
-
-            Vendedor.create({
-              Cedula: Result[i].Cedula,
-              Sucursal: Result[i].Sucursal,
-              Codigo: Result[i].Codigo,
-              Nombre: Result[i].Nombre,
-              PrefijoPedido: Result[i].PrefijoPedido,
-              CodigoTipoDocumento: Result[i].CodigoTipoDocumento,
-              Clave: Clave
-            }).then(() => {
-
-              if(i === Result.length)
-              {
-                res.json({Result: 1});
-              }
-
-            }).catch(Err => {
-              console.log(Err);
-              res.json({Result: 0, Err: "Error en sincronización de vendedor, creando"});
-            });
-
-          }
-
-          if(i === Result.length)
-          {
-            res.json({Result: 1});
-          }
-
-        }).catch(Err => {
-          console.log(Err);
-          res.json({Result: 0, Err: "Error en sincronización de vendedor, actualizando"});
+          
         });
       }
+
+      res.json({Result: 1});
+
     }).catch(Err => {
         console.log(Err);
         res.json({Result: 0, Err: "Error en sincronización de vendedor, consultando"});
@@ -466,9 +499,12 @@ router.post('/productos/Sync/', function (req, res, next) {
 
       ).spread((Result, Metadata) => { //exito en consulta de productos
 
-        for (var i = 0; i < Result.length; i++)
-        {
-          Producto.update({
+        for (var i = 0; i < Result.length; i++){
+          var FechaUltimaCompra = (Result[i].FechaUltimaCompra === "Invalid date") ? null : Result[i].FechaUltimaCompra;
+          var FechaUltimaVenta = (Result[i].FechaUltimaVenta === "Invalid date") ? null : Result[i].FechaUltimaVenta;
+
+          Producto.upsert({
+            Referencia: Result[i].Referencia,
             Nombre: Result[i].Nombre,
             UnidadDeMedida: Result[i].UnidadDeMedida,
             UnidadPorEmpaque: Result[i].UnidadPorEmpaque,
@@ -480,54 +516,13 @@ router.post('/productos/Sync/', function (req, res, next) {
             PromocionDelProveedor: Result[i].PromocionDelProveedor,
             PromocionDelMes: Result[i].PromocionDelMes,
             //Existencia: Result[i].Existencia; //en actualizacion no agregamos existencia
-            FechaUltimaCompra: Result[i].FechaUltimaCompra,
-            FechaUltimaVenta: Result[i].FechaUltimaVenta,
-            Observaciones: Result[i].Observaciones,
-          },
-          {
-            where: {Referencia: Result[i].Referencia}
-          }).then(R => {
-
-            if(R === null){
-              Producto.Create({
-                Nombre: Result[i].Nombre,
-                UnidadDeMedida: Result[i].UnidadDeMedida,
-                UnidadPorEmpaque: Result[i].UnidadPorEmpaque,
-                ModeloContable: Result[i].ModeloContable,
-                Linea: Result[i].Linea,
-                PrecioBase: Result[i].PrecioBase,
-                Iva: Result[i].Iva,
-                LimiteIva: Result[i].LimiteIva,
-                PromocionDelProveedor: Result[i].PromocionDelProveedor,
-                PromocionDelMes: Result[i].PromocionDelMes,
-                Existencia: Result[i].Existencia,
-                FechaUltimaCompra: Result[i].FechaUltimaCompra,
-                FechaUltimaVenta: Result[i].FechaUltimaVenta,
-                Observaciones: Result[i].Observaciones,
-                ComentarioDetallePedido: Result[i].ComentarioDetallePedido,
-              }).then(() => {
-
-                if(i === Result.length)
-                {
-                  res.json({Result: 1});
-                }
-
-              }).catch(Err => {
-                console.log(Err);
-                res.json({Result:0, Err: "Error en sincronización de producto, creando"});
-              });
-            }
-
-            if(i === Result.length)
-            {
-              res.json({Result: 1});
-            }
-
-          }).catch(Err => {
-              console.log(Err);
-              res.json({Result:0, Err: "Error en sincronización de producto, actualizando"});
+            FechaUltimaCompra: FechaUltimaCompra,
+            FechaUltimaVenta: FechaUltimaVenta,
+            Observaciones: Result[i].Observaciones
           });
         }
+
+        res.json({Result: 1});
 
       }).catch(Err => { // error en consulta de productos
           console.log(Err);

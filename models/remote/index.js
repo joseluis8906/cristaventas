@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 
-const DBRemote = new Sequelize('mssql://DISTRIBUIDORAPOPULAR:dcp18922444@186.115.13.181:1433/C01');
-
+//const DBRemote = new Sequelize('mssql://DISTRIBUIDORAPOPULAR:dcp18922444@186.115.13.181:1433/C01');
+const DBRemote = new Sequelize('sqlite://models/cristaleria.sqlite');
 DBRemote.authenticate()
 .then(() => {
   console.log ('DB Remote Connection is established successfully.');
