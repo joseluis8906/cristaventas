@@ -21,105 +21,105 @@ var RCliente = require('../models/remote/Cliente');
 var RVendedor = require('../models/remote/Vendedor');
 
 
-router.post('/install/', function (req, res, next) {
-  var Data = req.body;
+router.post('/install/', function(req, res, next) {
+    var Data = req.body;
 
-  var salt = bcrypt.genSaltSync();
-  var Clave = bcrypt.hashSync(Data.Clave, salt);
-
-  Config1.create({
-    Clave: Clave
-  }).then(() => {
-    res.json ({Result: 1});
-  }).catch (Err => {
-    res.json ({Result: 0, Err: Err});
-  });
-
-});
-
-
-
-router.post('/sync/productos/', function (req, res, next) {
-  RProducto.findAll().then(R => {
-    for (var i = 0; i < R.length; i++){      
-      //console.log("{0}: compra: {1}, venta: {2}".replace("{0}", R[i].Referencia).replace("{1}", R[i].FechaUltimaCompra).replace("{2}", R[i].FechaUltimaVenta));
-      //console.log(R[i].FechaUltimaCompra === "Invalid date");
-      var FechaUltimaCompra = (R[i].FechaUltimaCompra === "Invalid date") ? null : R[i].FechaUltimaCompra;
-      var FechaUltimaVenta = (R[i].FechaUltimaVenta === "Invalid date") ? null : R[i].FechaUltimaVenta;
-
-      Producto.upsert({
-        Referencia: R[i].Referencia,
-        Nombre: R[i].Nombre,
-        UnidadDeMedida: R[i].UnidadDeMedida,
-        UnidadPorEmpaque: R[i].UnidadPorEmpaque,
-        ModeloContable: R[i].ModeloContable,
-        Linea: R[i].Linea,
-        PrecioBase: R[i].PrecioBase,
-        Iva: R[i].Iva,
-        LimiteIva: R[i].LimiteIva,
-        PromocionDelProveedor: R[i].PromocionDelMes,
-        PromocionDelMes: R[i].PromocionDelMes,
-        Existencia: R[i].Existencia,
-        FechaUltimaCompra: FechaUltimaCompra,
-        FechaUltimaVenta: FechaUltimaVenta,
-        Observaciones: R[i].Observaciones
-      });
-    }
-    res.json({Result: 1});
-  }).catch(Err => {
-    res.json({Result: 0, Err: Err});
-  });
-});
-
-
-
-router.post('/sync/clientes/', function (req, res, next) {
-  RCliente.findAll().then(R => {
-    for (var i = 0; i < R.length; i++){      
-
-      Cliente.upsert({
-        Nit: R[i].Nit,
-        Sucursal: R[i].Sucursal,
-        Codigo: R[i].Codigo,
-        Nombre: R[i].Nombre,
-        Direccion: R[i].Direccion,
-        Telefono1: R[i].Telefono1,
-        Telefono2: R[i].Telefono2,
-        Descuento: R[i].Descuento,
-        Plazo: R[i].Plazo
-      });
-    }
-    res.json({Result: 1});
-  }).catch(Err => {
-    res.json({Result: 0, Err: Err});
-  });
-});
-
-
-router.post('/sync/vendedores/', function (req, res, next) {
-  RVendedor.findAll().then(R => {
-    
     var salt = bcrypt.genSaltSync();
-    
-    for (var i = 0; i < R.length; i++){      
+    var Clave = bcrypt.hashSync(Data.Clave, salt);
 
-      var Clave = bcrypt.hashSync(R[i].Cedula.substr(-4,4), salt);
+    Config1.create({
+        Clave: Clave
+    }).then(() => {
+        res.json({ Result: 1 });
+    }).catch(Err => {
+        res.json({ Result: 0, Err: Err });
+    });
 
-      Vendedor.upsert({
-          Cedula: R[i].Cedula,
-          Sucursal: R[i].Sucursal,
-          Codigo: R[i].Codigo,
-          Nombre: R[i].Nombre,
-          PrefijoPedido: R[i].PrefijoPedido,
-          CodigoTipoDocumento: R[i].CodigoTipoDocumento,
-          Clave: Clave
-        });
-    }
-    res.json({Result: 1});
+});
 
-  }).catch(Err => {
-    res.json({Result: 0, Err: Err});
-  });
+
+
+router.post('/sync/productos/', function(req, res, next) {
+    RProducto.findAll().then(R => {
+        for (var i = 0; i < R.length; i++) {
+            //console.log("{0}: compra: {1}, venta: {2}".replace("{0}", R[i].Referencia).replace("{1}", R[i].FechaUltimaCompra).replace("{2}", R[i].FechaUltimaVenta));
+            //console.log(R[i].FechaUltimaCompra === "Invalid date");
+            var FechaUltimaCompra = (R[i].FechaUltimaCompra === "Invalid date") ? null : R[i].FechaUltimaCompra;
+            var FechaUltimaVenta = (R[i].FechaUltimaVenta === "Invalid date") ? null : R[i].FechaUltimaVenta;
+
+            Producto.upsert({
+                Referencia: R[i].Referencia,
+                Nombre: R[i].Nombre,
+                UnidadDeMedida: R[i].UnidadDeMedida,
+                UnidadPorEmpaque: R[i].UnidadPorEmpaque,
+                ModeloContable: R[i].ModeloContable,
+                Linea: R[i].Linea,
+                PrecioBase: R[i].PrecioBase,
+                Iva: R[i].Iva,
+                LimiteIva: R[i].LimiteIva,
+                PromocionDelProveedor: R[i].PromocionDelMes,
+                PromocionDelMes: R[i].PromocionDelMes,
+                Existencia: R[i].Existencia,
+                FechaUltimaCompra: FechaUltimaCompra,
+                FechaUltimaVenta: FechaUltimaVenta,
+                Observaciones: R[i].Observaciones
+            });
+        }
+        res.json({ Result: 1 });
+    }).catch(Err => {
+        res.json({ Result: 0, Err: Err });
+    });
+});
+
+
+
+router.post('/sync/clientes/', function(req, res, next) {
+    RCliente.findAll().then(R => {
+        for (var i = 0; i < R.length; i++) {
+
+            Cliente.upsert({
+                Nit: R[i].Nit,
+                Sucursal: R[i].Sucursal,
+                Codigo: R[i].Codigo,
+                Nombre: R[i].Nombre,
+                Direccion: R[i].Direccion,
+                Telefono1: R[i].Telefono1,
+                Telefono2: R[i].Telefono2,
+                Descuento: R[i].Descuento,
+                Plazo: R[i].Plazo
+            });
+        }
+        res.json({ Result: 1 });
+    }).catch(Err => {
+        res.json({ Result: 0, Err: Err });
+    });
+});
+
+
+router.post('/sync/vendedores/', function(req, res, next) {
+    RVendedor.findAll().then(R => {
+
+        var salt = bcrypt.genSaltSync();
+
+        for (var i = 0; i < R.length; i++) {
+
+            var Clave = bcrypt.hashSync(R[i].Cedula.substr(-4, 4), salt);
+
+            Vendedor.upsert({
+                Cedula: R[i].Cedula,
+                Sucursal: R[i].Sucursal,
+                Codigo: R[i].Codigo,
+                Nombre: R[i].Nombre,
+                PrefijoPedido: R[i].PrefijoPedido,
+                CodigoTipoDocumento: R[i].CodigoTipoDocumento,
+                Clave: Clave
+            });
+        }
+        res.json({ Result: 1 });
+
+    }).catch(Err => {
+        res.json({ Result: 0, Err: Err });
+    });
 });
 
 
