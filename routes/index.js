@@ -567,14 +567,15 @@ router.post('/pedido/eliminar/', function(req, res, next) {
                         } else if (Dp.length > 0) {
 
                             for (var i = 0; i < Dp.length; i++) {
-                                Producto.update({
-                                    Existencia: this.Existencia + Dp[i].PEDCantidadPedidaDetallePedido
-                                }, {
+                                Producto.findOne({
                                     where: {
                                         Referencia: Dp[i].PEDCodigoReferenciaDetallePedido
                                     }
-                                }).then(() => {
-
+                                }).then(P => {
+                                    if (P) {
+                                        P.Existencia = Number(Existencia) + Number(Dp[i].PEDCantidadPedidaDetallePedido);
+                                        P.save();
+                                    }
                                 }).catch(Err => {
                                     consoele.log(Err);
                                 });
