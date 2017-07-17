@@ -29,8 +29,8 @@ $(document).ready(function() {
         }
 
         var Url = "/pedido/eliminar/";
-
-        JsonReq(Url, { Clave: Clave, CodigoVendedor: CodigoVendedor, NumeroPedido: NumeroPedido }, function(Res) {
+        console.log(zfill(NumeroPedido, 15, '0'));
+        JsonReq(Url, { Clave: Clave, CodigoVendedor: CodigoVendedor, NumeroPedido: zfill(NumeroPedido, 15, '0') }, function(Res) {
 
                 if (Res.Result === 0) {
                     $("#Loading").foundation("close");
@@ -67,3 +67,9 @@ $(document).ready(function() {
     });
 
 });
+
+function zfill(num, size, character) {
+    var s = num + "";
+    while (s.length < size) s = character + s;
+    return s;
+}
