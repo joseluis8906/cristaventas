@@ -573,7 +573,7 @@ router.post('/pedido/eliminar/', function(req, res, next) {
                                     }
                                 }).then(P => {
                                     if (P) {
-                                        P.Existencia = Number(Existencia) + Number(Dp[i].PEDCantidadPedidaDetallePedido);
+                                        P.Existencia = Number(P.Existencia) + Number(Dp[i].PEDCantidadPedidaDetallePedido);
                                         P.save();
                                     }
                                 }).catch(Err => {
