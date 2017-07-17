@@ -534,7 +534,7 @@ router.post('/productos/Sync/', function(req, res, next) {
 
 
 //carga la pagina para eliminar pedido
-router.get('/ui/pedido/', function(req, res, next) {
+router.get('/admin/pedido/', function(req, res, next) {
     res.render('pedido');
 });
 
