@@ -577,7 +577,7 @@ router.post('/pedido/eliminar/', function(req, res, next) {
                                         P.save();
                                     }
                                 }).catch(Err => {
-                                    consoele.log(Err);
+                                    console.log(Err);
                                 });
                             }
 
