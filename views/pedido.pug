@@ -1,0 +1,43 @@
+extends layout
+
+block content
+
+  img(src="/images/logoCristaleria.svg" style="width: 64px; display: block; margin: auto;")
+  h1(style="text-align:center; color: white;") DCP
+
+  div(class="card-info warning")
+    div(class="card-info-label")
+      div(class="card-info-label-text") DCP
+    div(class="card-info-content")
+      h2(class="lead") Pedido
+      input(type="password", id="Clave", placeholder="Clave", maxlength=4, aria-describedby="passwordHelpText")
+      p(class="help-text" id="passwordHelpText") Ingrese su clave.
+      input(type="text" class="input-group-field", placeholder="Código Vendedor", id="CodigoVendedor")
+      br
+      input(type="text", id="NumeroPedido", placeholder="Número del Pedido")
+      button(type="button", class="button", id="BtnGuardar") Enviar
+      a(class="button warning rounded r1", href="/", style="float: right")
+        img(src="/images/appbar.home.svg" style="width: 16px;")
+
+  div(data-reveal, class="reveal success", id="Success")
+    img(class="header" src="/images/gwt.gui.img.success.svg")
+    h2(class="lead") Exito!
+    p(class="lead", id="SuccessMsg") Message Default.
+    div(class="footer", data-close="Success", id="BtnRevealSuccess")
+      span Salir
+
+  div(data-reveal, class="reveal failure", id="Failure")
+    img(class="header" src="/images/gwt.gui.img.failure.svg")
+    h2(class="lead") Falló!
+    p(class="lead", id="FailureMsg") Message Default.
+    div(class="footer" data-close="Failure", id="BtnRevealFailure")
+      span Salir
+
+  div(data-reveal, class="reveal success", id="Loading")
+    img(class="header" src="/images/loading.gif" style="display: block; margin: auto")
+    p(style="margin-bottom: 12px") Por favor espere...
+
+block scripts
+  script(src="/js/cristaleria.admin.pedido.js")
+  script(src="/js/cristaleria.jsonreq.js")
+  script(src="/js/gwt.gui.btn.update.js")
