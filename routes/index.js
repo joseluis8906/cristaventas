@@ -565,17 +565,21 @@ router.post('/pedido/eliminar/', function(req, res, next) {
                             res.json({ Result: 0, Err: 'El número del pedido no existe' });
 
                         } else if (Dp.length > 0) {
-
+                            var tmp = Dp;
                             for (var i = 0; i < Dp.length; i++) {
-                                var tmp = Dp[i];
                                 Producto.findOne({
                                     where: {
-                                        Referencia: tmp.PEDCodigoReferenciaDetallePedido
+                                        Referencia: Dp[i].PEDCodigoReferenciaDetallePedido
                                     }
                                 }).then(P => {
                                     if (P) {
-                                        P.Existencia = Number(P.Existencia) + Number(tmp.PEDCantidadPedidaDetallePedido);
-                                        P.save();
+                                        for (var j = 0; j < tmp.length; j++) {
+                                            if (P.Referencia === tmp[j].PEDCodigoReferenciaDetallePedido) {
+                                                P.Existencia = Number(P.Existencia) + Number(tmp[j].PEDCantidadPedidaDetallePedido);
+                                                P.save();
+                                                break;
+                                            }
+                                        }
                                     }
                                 }).catch(Err => {
                                     console.log(Err);
