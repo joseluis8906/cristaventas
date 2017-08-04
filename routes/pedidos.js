@@ -119,6 +119,7 @@ router.post('/Insert/', function(req, res, next) {
 //
 router.post('/Last/', function(req, res, next) {
     var Data = req.body;
+    console.log(Data);
     
     DBRemote.query("SELECT TOP 1 * FROM dbo.PEDENCABEZADOPEDIDOS \
                       WHERE PEDPrefijoPedidoEncabezadoPedidos =  ? \
@@ -140,8 +141,10 @@ router.post('/Last/', function(req, res, next) {
     ,{replacements: [Data.PrefijoPedido], type: sequelize.QueryTypes.SELECT})
     */
     .spread((Result, Metadata) => {
+        console.log(Result  )
         res.json(Result);
     }).catch(Err => {
+        console.log(Err);
         res.json({Result:0, Err: Err});
     });
 });
