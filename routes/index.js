@@ -173,7 +173,7 @@ router.post('/root/user/password/change/', function(req, res, next) {
       } else if (bcrypt.compareSync(Data.Clave, R[0].Clave)) {
         
           Vendedor.findOne({
-            where: { Codigo: Data.Codigo }
+            where: { Codigo: Data.UsuarioCodigo }
           }).then(R => {
           
             R.Clave = bcrypt.hashSync(Data.UsuarioNuevaClave, salt);
