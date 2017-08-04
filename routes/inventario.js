@@ -11,6 +11,7 @@ router.post('/Select/', function(req, res, next) {
 
   Producto.findOne({ where: {Referencia: Data.Referencia}
   }).then(result => {
+      console.log(result);
       res.json(result);
   }).catch(Err => {
       res.json({Result:0, Err: Err});
