@@ -176,7 +176,7 @@ router.post('/root/user/password/change/', function(req, res, next) {
             where: { Codigo: Data.Codigo }
           }).then(R => {
           
-            R.Clave = bcrypt.hashSync(Data.NUevaClaveUsuario, salt);
+            R.Clave = bcrypt.hashSync(Data.UsuarioNuevaClave, salt);
             R.save();
             res.json({ Result: 1 });
           
