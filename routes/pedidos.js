@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var sequelize = require('sequelize');
-//var DBRemote = require('../models/remote/index');
+var DBRemote = require('../models/remote/index');
 var DBLocal = require('../models/local/index');
 var PEDENCABEZADOPEDIDOS = require('../models/local/PEDENCABEZADOPEDIDOS');
 var PEDDETALLEPEDIDOS = require('../models/local/PEDDETALLEPEDIDOS');
@@ -141,7 +141,7 @@ router.post('/Last/', function(req, res, next) {
     ,{replacements: [Data.PrefijoPedido], type: sequelize.QueryTypes.SELECT})
     */
     .spread((Result, Metadata) => {
-        console.log(Result  )
+        console.log(Result)
         res.json(Result);
     }).catch(Err => {
         console.log(Err);
