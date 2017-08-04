@@ -516,7 +516,7 @@ router.post('/productos/Sync/', function (req, res, next) {
             LimiteIva: Result[i].LimiteIva,
             PromocionDelProveedor: Result[i].PromocionDelProveedor,
             PromocionDelMes: Result[i].PromocionDelMes,
-            //Existencia: Result[i].Existencia; //en actualizacion no agregamos existencia
+            Existencia: Result[i].Existencia;
             FechaUltimaCompra: FechaUltimaCompra,
             FechaUltimaVenta: FechaUltimaVenta,
             Observaciones: Result[i].Observaciones
