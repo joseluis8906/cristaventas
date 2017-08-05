@@ -120,14 +120,14 @@ router.post('/Insert/', function(req, res, next) {
 router.post('/Last/', function(req, res, next) {
     var Data = req.body;
     console.log(Data);
-    
+    /*
     DBRemote.query("SELECT TOP 1 * FROM dbo.PEDENCABEZADOPEDIDOS \
                       WHERE PEDPrefijoPedidoEncabezadoPedidos =  ? \
                       AND LEN(PEDNumeroPedidoEncabezadoPedidos) = 15 \
                       ORDER BY PEDNumeroPedidoEncabezadoPedidos DESC",
     { replacements: [Data.PrefijoPedido], type: sequelize.QueryTypes.SELECT })
-
-    /*DBLocal.query("\
+    */
+    DBLocal.query("\
       SELECT * \
       FROM \
         PEDENCABEZADOPEDIDOS \
@@ -139,7 +139,7 @@ router.post('/Last/', function(req, res, next) {
         PEDNumeroPedidoEncabezadoPedidos DESC LIMIT 1"
 
     ,{replacements: [Data.PrefijoPedido], type: sequelize.QueryTypes.SELECT})
-    */
+    
     .spread((Result, Metadata) => {
         console.log(Result)
         res.json(Result);
